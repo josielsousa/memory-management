@@ -6,7 +6,7 @@ int main() {
     char io_mode = 'w';
     float throtle_speed = 0.2;
 
-    // array of characters == string
+    // array of characters(aka char star) == string
     char *name = "lesson_03.c";
 
     printf("Max recursive calls: %d\n", max_recursive_calls);

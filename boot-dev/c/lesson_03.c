@@ -6,7 +6,11 @@ int main() {
     char io_mode = 'w';
     float throtle_speed = 0.2;
 
+    // array of characters == string
+    char *name = "lesson_03.c";
+
     printf("Max recursive calls: %d\n", max_recursive_calls);
     printf("IO mode: %c\n", io_mode);
     printf("Throtle speed: %f\n", throtle_speed);
+    printf("Name: %s\n", name);
 }

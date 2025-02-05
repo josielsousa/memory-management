@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// cc lesson_01.c -o lesson_01.o && ./lesson_01.o
+// cc boot-dev/c/lesson_01.c -o out/lesson_01.o && ./out/lesson_01.o
 int main() {
   printf("Program in C\n");
   return 0;

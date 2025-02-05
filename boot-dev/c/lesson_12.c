@@ -1,5 +1,15 @@
 #include <stdio.h>
 
+// void - no return value, is a best practice to use void too when the function
+// does not receive any arguments
+void get_integer(void) {
+    printf("Getting integer\n");
+}
+
+int max_integer(void) {
+    return 100;
+}
+
 int max_sneklang_memory(int max_threads, int memory_per_thread) {
     return max_threads * memory_per_thread;
 }

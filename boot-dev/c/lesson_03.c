@@ -13,4 +13,7 @@ int main() {
     printf("IO mode: %c\n", io_mode);
     printf("Throtle speed: %f\n", throtle_speed);
     printf("Name: %s\n", name);
+
+    const float pi = 3.14159;
+    printf("Pi: %f\n", pi);
 }

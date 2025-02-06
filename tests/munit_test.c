@@ -2,7 +2,10 @@
 #include "../boot-dev/c/src/main.h"
 #include "../munit/munit.h"
 
-static MunitResult test_compare_integer(const MunitParameter params[], void *data) {
+// test_compare_integer - compare an integer to itself
+static MunitResult test_compare_integer(
+    const MunitParameter params[], void *data) {
+
     (void)params;
     (void)data;
 
@@ -11,8 +14,10 @@ static MunitResult test_compare_integer(const MunitParameter params[], void *dat
     return MUNIT_OK;
 }
 
-static MunitResult test_get_language(const MunitParameter params[],
-                                     void                *data) {
+// test_get_language - assert that  get_language returns "C"
+static MunitResult test_get_language(
+    const MunitParameter params[], void *data) {
+
     (void)params;
     (void)data;
 
@@ -22,16 +27,14 @@ static MunitResult test_get_language(const MunitParameter params[],
     return MUNIT_OK;
 }
 
-/* Creating a test suite is pretty simple.  First, you'll need an
- * array of tests: */
+// Creating a test suite is pretty simple.  First, you'll need an
+// array of tests:
 static MunitTest test_suite_tests[] = {
     {(char *)"test_compare", test_compare_integer, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
     {(char *)"test_get_language", test_get_language, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
     {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
 };
 
-/* Now we'll actually declare the test suite.  You could do this in
- * the main function, or on the heap, or whatever you want. */
 static const MunitSuite test_suite = {
     // This string will be prepended to all test names in this suite;
     (char *)"main/",
@@ -42,14 +45,11 @@ static const MunitSuite test_suite = {
     NULL,
     // multiple iterations of the tests
     1,
-    /* Just like MUNIT_TEST_OPTION_NONE, you can provide
-     * MUNIT_SUITE_OPTION_NONE or 0 to use the default settings. */
+    // Just like MUNIT_TEST_OPTION_NONE, you can provide
+    // MUNIT_SUITE_OPTION_NONE or 0 to use the default settings.
     MUNIT_SUITE_OPTION_NONE,
 };
 
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
-    /* Finally, we'll actually run our test suite!  That second argument
-     * is the user_data parameter which will be passed either to the
-     * test or (if provided) the fixture setup function. */
     return munit_suite_main(&test_suite, NULL, argc, argv);
 }

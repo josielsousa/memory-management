@@ -1,3 +1,1 @@
-char *get_language() {
-    return "C";
-}
+char *get_language() { return "C"; }

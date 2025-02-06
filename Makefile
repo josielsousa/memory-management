@@ -19,9 +19,21 @@ test_suite: $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES)
 	$(CC) $(CFLAGS) $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES) -o out/test_suite.o
 
 # Regra para rodar os testes
-test: test_suite
+test: clean format test_suite
+	@echo "==> Executando suite de testes..."
 	./out/test_suite.o
 
 # Limpar arquivos gerados
 clean:
+	@echo "==> Limpando o output..."
 	rm -f out/*.o
+
+# Gerar arquivo de configuração de estilo de código
+code-style:
+	@echo "==> Gerando o código..."
+	@clang-format -style=llvm -dump-config > .clang-format
+
+# Formatar o código
+format:
+	@echo "==> Formatando o código..."
+	@clang-format -i $(SRC_FILES) $(TEST_FILES)

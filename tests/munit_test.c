@@ -73,11 +73,28 @@ static MunitResult test_new_coordinate(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+// test_scale_coordinate - assert that scale_coordinate returns a Coordinate
+static MunitResult test_scale_coordinate(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  struct Coordinate coordinate = new_coordinate(1, 2, 3);
+  struct Coordinate scaled = scale_coordinate(coordinate, 2);
+
+  assert_int(scaled.x, ==, 2);
+  assert_int(scaled.y, ==, 4);
+  assert_int(scaled.z, ==, 6);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
       munit_test("main/test_get_language", test_get_language),
       munit_test("main/test_new_coordinate", test_new_coordinate),
+      munit_test("main/test_scale_coordinate", test_scale_coordinate),
       munit_null_test,
   };
 

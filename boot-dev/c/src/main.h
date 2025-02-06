@@ -16,12 +16,14 @@ typedef struct Human {
 
 // Memory layout
 // poorly_aligned_t - nesse exemplo a struct é mal alinhada
-// char a; -> 1 byte
+// char a; -> 4 byte
+// padding -> 4 byte
 // double b; -> 8 bytes
-// char c; -> 1 byte
-// char d; -> 1 byte
+// char c; -> 4 byte
+// char d; -> 4 byte
 // long e; -> 8 bytes
-// char f; -> 1 byte
+// char f; -> 4 byte
+// padding -> 4 byte
 // nesse ela vai ser alocada em um espaço maior, pois o compilador vai adicionar
 // bytes de padding para alinhar os tipos de dados.
 typedef struct {
@@ -40,6 +42,7 @@ typedef struct {
 // char c; -> 1 byte
 // char d; -> 1 byte
 // char f; -> 1 byte
+// padding -> 4 byte
 // nesse caso a struct vai ser alocada em um espaço menor, pois o compilador
 // não vai adicionar bytes de padding para alinhar os tipos de dados.
 typedef struct {

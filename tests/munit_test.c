@@ -102,6 +102,28 @@ static MunitResult test_new_human(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+// test_poorly_aligned - assert that poorly_aligned_t is poorly aligned
+static MunitResult test_poorly_aligned(const MunitParameter params[],
+                                       void *data) {
+  (void)params;
+  (void)data;
+
+  assert_size(sizeof(poorly_aligned_t), ==, 40);
+
+  return MUNIT_OK;
+}
+
+// test_better_aligned - assert that better_aligned_t is better aligned
+static MunitResult test_better_aligned(const MunitParameter params[],
+                                       void *data) {
+  (void)params;
+  (void)data;
+
+  assert_size(sizeof(better_aligned_t), ==, 24);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -109,6 +131,8 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_new_coordinate", test_new_coordinate),
       munit_test("main/test_scale_coordinate", test_scale_coordinate),
       munit_test("main/test_new_human", test_new_human),
+      munit_test("main/test_poorly_aligned", test_poorly_aligned),
+      munit_test("main/test_better_aligned", test_better_aligned),
       munit_null_test,
   };
 

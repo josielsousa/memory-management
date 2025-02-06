@@ -4,7 +4,7 @@ CC = cc
 # Diretórios
 SRC_DIR = boot-dev/c/src
 TESTS_DIR = tests
-MUNIT_DIR = munit/
+MUNIT_DIR = munit
 
 # Flags do compilador
 CFLAGS = -Wall -Wextra -I$(MUNIT_DIR) -I$(SRC_DIR)

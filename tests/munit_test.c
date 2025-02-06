@@ -26,32 +26,36 @@ static MunitResult test_get_language(const MunitParameter params[], void *data)
     return MUNIT_OK;
 }
 
-// Creating a test suite is pretty simple.  First, you'll need an
-// array of tests:
-static MunitTest test_suite_tests[] = {
-    {(char *)"test_compare", test_compare_integer, NULL, NULL,
-     MUNIT_TEST_OPTION_NONE, NULL},
-    {(char *)"test_get_language", test_get_language, NULL, NULL,
-     MUNIT_TEST_OPTION_NONE, NULL},
-    {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+const MunitTest munit_null_test = {
+    NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL
 };
 
-static const MunitSuite test_suite = {
-    // This string will be prepended to all test names in this suite;
-    (char *)"main/",
-    // The first parameter is the array of test suites.
-    test_suite_tests,
-    // In addition to containing test cases, suites can contain other
-    // test suites.
-    NULL,
-    // multiple iterations of the tests
-    1,
-    // Just like MUNIT_TEST_OPTION_NONE, you can provide
-    // MUNIT_SUITE_OPTION_NONE or 0 to use the default settings.
-    MUNIT_SUITE_OPTION_NONE,
-};
+MunitTest munit_test(char *name, MunitTestFunc test_func)
+{
+    MunitTest test = {name, test_func, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+                      NULL};
+
+    return test;
+}
+
+MunitSuite munit_suite(MunitTest *tests)
+{
+    MunitSuite suite = {
+        (char *)"", tests, NULL, 1, MUNIT_SUITE_OPTION_NONE,
+    };
+
+    return suite;
+}
 
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)])
 {
+    MunitTest test_suite_tests[] = {
+        munit_test("main/test_compate_integer", test_compare_integer),
+        munit_test("main/test_get_language", test_get_language),
+        munit_null_test,
+    };
+
+    MunitSuite test_suite = munit_suite(test_suite_tests);
+
     return munit_suite_main(&test_suite, NULL, argc, argv);
 }

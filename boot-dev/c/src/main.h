@@ -1,3 +1,7 @@
+// #pragma once - evita que essas definições sejam incluídas mais de uma vez
+
+#pragma once
+
 char *get_language();
 
 struct Coordinate {

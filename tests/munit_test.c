@@ -6,7 +6,6 @@
 static MunitResult
 test_compare_integer(const MunitParameter params[], void *data)
 {
-
     (void)params;
     (void)data;
 
@@ -18,7 +17,6 @@ test_compare_integer(const MunitParameter params[], void *data)
 // test_get_language - assert that  get_language returns "C"
 static MunitResult test_get_language(const MunitParameter params[], void *data)
 {
-
     (void)params;
     (void)data;
 

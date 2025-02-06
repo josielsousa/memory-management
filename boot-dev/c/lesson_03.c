@@ -1,10 +1,11 @@
 #include <stdio.h>
 
 // cc boot-dev/c/lesson_03.c -o out/lesson_03.o && ./out/lesson_03.o
-int main() {
-    int max_recursive_calls = 2;
-    char io_mode = 'w';
-    float throtle_speed = 0.2;
+int main()
+{
+    int   max_recursive_calls = 2;
+    char  io_mode             = 'w';
+    float throtle_speed       = 0.2;
 
     // array of characters(aka char star) == string
     char *name = "lesson_03.c";

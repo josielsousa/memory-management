@@ -5,7 +5,20 @@ UseTab: Never
 AllowShortFunctionsOnASingleLine: None
 ReflowComments: false
 AlignTrailingComments: true
-ColumnLimit: 0
+ColumnLimit: 80
 AlignConsecutiveDeclarations: true
 AlignConsecutiveAssignments: true
 AlignConsecutiveMacros: true
+AllowShortCompoundRequirementOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
+AlignAfterOpenBracket: BlockIndent
+
+# Example of usage:
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterEnum: true
+  AfterStruct: false
+  AfterFunction: true
+  AfterCaseLabel: true
+  SplitEmptyFunction: false

@@ -3,8 +3,9 @@
 #include "../munit/munit.h"
 
 // test_compare_integer - compare an integer to itself
-static MunitResult test_compare_integer(
-    const MunitParameter params[], void *data) {
+static MunitResult
+test_compare_integer(const MunitParameter params[], void *data)
+{
 
     (void)params;
     (void)data;
@@ -15,8 +16,8 @@ static MunitResult test_compare_integer(
 }
 
 // test_get_language - assert that  get_language returns "C"
-static MunitResult test_get_language(
-    const MunitParameter params[], void *data) {
+static MunitResult test_get_language(const MunitParameter params[], void *data)
+{
 
     (void)params;
     (void)data;
@@ -30,8 +31,10 @@ static MunitResult test_get_language(
 // Creating a test suite is pretty simple.  First, you'll need an
 // array of tests:
 static MunitTest test_suite_tests[] = {
-    {(char *)"test_compare", test_compare_integer, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
-    {(char *)"test_get_language", test_get_language, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+    {(char *)"test_compare", test_compare_integer, NULL, NULL,
+     MUNIT_TEST_OPTION_NONE, NULL},
+    {(char *)"test_get_language", test_get_language, NULL, NULL,
+     MUNIT_TEST_OPTION_NONE, NULL},
     {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
 };
 
@@ -50,6 +53,7 @@ static const MunitSuite test_suite = {
     MUNIT_SUITE_OPTION_NONE,
 };
 
-int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
+int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)])
+{
     return munit_suite_main(&test_suite, NULL, argc, argv);
 }

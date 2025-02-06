@@ -17,3 +17,12 @@ struct Coordinate scale_coordinate(struct Coordinate c, int factor) {
       .z = c.z * factor,
   };
 }
+
+// new_human - create a new Human
+human_t new_human(char *name, int age, int is_alive) {
+  return (human_t){
+      .name = name,
+      .age = age,
+      .is_alive = is_alive,
+  };
+}

@@ -89,12 +89,26 @@ static MunitResult test_scale_coordinate(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+// test_new_human - assert that new_human returns a Human
+static MunitResult test_new_human(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  human_t human = new_human("John Doe", 30, 1);
+  assert_string_equal(human.name, "John Doe");
+  assert_int(human.age, ==, 30);
+  assert_int(human.is_alive, ==, 1);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
       munit_test("main/test_get_language", test_get_language),
       munit_test("main/test_new_coordinate", test_new_coordinate),
       munit_test("main/test_scale_coordinate", test_scale_coordinate),
+      munit_test("main/test_new_human", test_new_human),
       munit_null_test,
   };
 

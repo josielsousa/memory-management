@@ -24,4 +24,4 @@ test: test_suite
 
 # Limpar arquivos gerados
 clean:
-	rm -f out/test_suite.o
+	rm -f out/*.o

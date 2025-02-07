@@ -152,6 +152,22 @@ test_update_and_return_coordinate_x(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+// test_update_coordinate_y_by_reference - assert that
+// updated coordinate y by reference
+static MunitResult
+test_update_coordinate_y_by_reference(const MunitParameter params[],
+                                      void *data) {
+  (void)params;
+  (void)data;
+
+  struct Coordinate c = new_coordinate(1, 2, 3);
+  update_coordinate_y_by_reference(&c, 4);
+
+  assert_int(c.y, ==, 4);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -164,6 +180,8 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_update_coordinate_x", test_update_coordinate_x),
       munit_test("main/test_update_and_return_coordinate_x",
                  test_update_and_return_coordinate_x),
+      munit_test("main/test_update_coordinate_y_by_reference",
+                 test_update_coordinate_y_by_reference),
       munit_null_test,
   };
 

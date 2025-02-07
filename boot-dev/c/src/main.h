@@ -65,3 +65,5 @@ human_t new_human(char *name, int age, int is_alive);
 void update_coordinate_x(struct Coordinate c, int x);
 
 struct Coordinate update_and_return_coordinate_x(struct Coordinate c, int x);
+
+void update_coordinate_y_by_reference(struct Coordinate *c, int y);

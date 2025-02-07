@@ -29,7 +29,11 @@ human_t new_human(char *name, int age, int is_alive) {
 
 // update_coordinate_x - update the x-coordinate of a Coordinate but do not
 // return it
-void update_coordinate_x(struct Coordinate c, int x) { c.x = x; }
+void update_coordinate_x(struct Coordinate c, int x) {
+  (void)c; // disable unused warning from compiler
+
+  c.x = x;
+}
 
 // update_and_return_coordinate_x - update the x-coordinate of a Coordinate and
 // return it
@@ -38,3 +42,7 @@ struct Coordinate update_and_return_coordinate_x(struct Coordinate c, int x) {
 
   return c;
 }
+
+// update_coordinate_y_by_reference - update the y-coordinate of a Coordinate by
+// reference
+void update_coordinate_y_by_reference(struct Coordinate *c, int y) { c->y = y; }

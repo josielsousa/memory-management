@@ -1,4 +1,5 @@
 #include "main.h"
+#include "string.h"
 
 // new_coordinate - create a new Coordinate
 struct Coordinate new_coordinate(int x, int y, int z) {
@@ -65,4 +66,27 @@ void update_file(int filedata[200], int new_file_type, int new_num_lines) {
   filedata[1] = new_file_type;
   filedata[2] = new_num_lines;
   filedata[199] = 0;
+}
+
+// concat_strings - concatenate two strings and return the result.
+void concat_strings_strcat(char *dst, char *src) { strcat(dst, src); }
+
+// concat_strings_roots - concatenate two strings and return the result.
+void concat_strings_roots(char *dst, char *src) {
+  // find the end of the destination string (null terminator)
+  while (*dst != '\0') {
+    dst++;
+  }
+
+  // copy the source string to the destination string
+  while (1) {
+    // make sure add the null terminator to the destination string
+    *dst = *src;
+    dst++;
+    src++;
+
+    if (*src == '\0') {
+      break;
+    }
+  }
 }

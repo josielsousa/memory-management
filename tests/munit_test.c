@@ -199,6 +199,67 @@ static MunitResult test_update_file(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+static MunitResult test_concatenate_strings(const MunitParameter params[],
+                                            void *data) {
+  (void)params;
+  (void)data;
+
+  char str1[20] = "Hello ";
+  char *str2 = "World";
+  concat_strings_strcat(str1, str2);
+
+  assert_string_equal(str1, "Hello World");
+
+  return MUNIT_OK;
+}
+
+static MunitResult
+test_concatenate_strings_one_empty(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  // NOTE: the source string should be greater than the resulting string
+  // otherwise the strcat function will not work and return a segmentation
+  char str1[100] = "Hello";
+  char *str2 = "";
+  concat_strings_strcat(str1, str2);
+  assert_string_equal(str1, "Hello");
+
+  // NOTE: in this next example, the strcat function returns a segmentation
+  // fault because the source string is smaller than the resulting string
+  // char *str1 = ""; or char str1[5] = "";
+  // char *str2 = "Hello";
+  // assert_string_equal(str1, "Hello");
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_concatenate_strings_roots(const MunitParameter params[],
+                                                  void *data) {
+  (void)params;
+  (void)data;
+
+  char str1[20] = "Hello ";
+  char *str2 = "World";
+  concat_strings_roots(str1, str2);
+
+  assert_string_equal(str1, "Hello World");
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_smart_append(const MunitParameter params[],
+                                     void *data) {
+  (void)params;
+  (void)data;
+
+  TextBuffer buffer = {.length = 0, .buffer = ""};
+  smart_append(&buffer, "Hello");
+  assert_string_equal(buffer.buffer, "Hello");
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -216,6 +277,13 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_update_coordinate_z_by_dereference",
                  test_update_coordinate_z_by_dereference),
       munit_test("main/test_update_file", test_update_file),
+      munit_test("main/test_concatenate_strings", test_concatenate_strings),
+      munit_test("main/test_concatenate_strings_one_empty",
+                 test_concatenate_strings_one_empty),
+      munit_test("main/test_concatenate_strings_roots",
+                 test_concatenate_strings_roots),
+      munit_test("main/test_smart_append", test_smart_append),
+
       munit_null_test,
   };
 

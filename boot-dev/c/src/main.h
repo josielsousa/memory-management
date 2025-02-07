@@ -1,3 +1,5 @@
+#include "my_strings.h"
+
 // #pragma once - evita que essas definições sejam incluídas mais de uma vez
 
 #pragma once
@@ -77,3 +79,7 @@ struct Coordinate update_coordinate_z_by_dereference(struct Coordinate *c,
 // The `2` index is the number of lines
 // The `199` index always should be `0`
 void update_file(int filedata[200], int new_file_type, int new_num_lines);
+
+void concat_strings_strcat(char *dst, char *src);
+
+void concat_strings_roots(char *dst, char *src);

@@ -328,6 +328,65 @@ static MunitResult test_new_node_zero_value(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_new_employee(const MunitParameter params[],
+                                     void *data) {
+  (void)params;
+  (void)data;
+
+  employee_t *employee = new_employee(1, "John Doe", NULL);
+  assert_int(employee->id, ==, 1);
+  assert_string_equal(employee->name, "John Doe");
+  assert_ptr(employee->department, ==, NULL);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_new_department_manager(const MunitParameter params[],
+                                               void *data) {
+  (void)params;
+  (void)data;
+
+  employee_t *manager = new_employee(1, "Mary Jane", NULL);
+  assert_int(manager->id, ==, 1);
+  assert_string_equal(manager->name, "Mary Jane");
+  assert_ptr(manager->department, ==, NULL);
+
+  department_t *department = new_department("Engineering", manager);
+  assert_string_equal(department->name, "Engineering");
+  assert_ptr(department->manager, !=, NULL);
+
+  // check if the manager is correctly assigned
+  assert_string_equal(department->manager->name, "Mary Jane");
+  assert_int(department->manager->id, ==, 1);
+
+  employee_t *engineer = new_employee(2, "John Doe", department);
+  assert_int(engineer->id, ==, 2);
+  assert_string_equal(engineer->name, "John Doe");
+
+  // check if the department is correctly assigned
+  assert_ptr(engineer->department, !=, NULL);
+  assert_string_equal(engineer->department->name, "Engineering");
+
+  // check if the manager is correctly assigned
+  assert_ptr(engineer->department->manager, !=, NULL);
+  assert_string_equal(engineer->department->manager->name, "Mary Jane");
+  assert_int(engineer->department->manager->id, ==, 1);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_new_department(const MunitParameter params[],
+                                       void *data) {
+  (void)params;
+  (void)data;
+
+  department_t *department = new_department("Engineering", NULL);
+  assert_string_equal(department->name, "Engineering");
+  assert_ptr(department->manager, ==, NULL);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -355,6 +414,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_smart_append_overflow", test_smart_append_overflow),
       munit_test("main/test_new_node", test_new_node),
       munit_test("main/test_new_node_zero_value", test_new_node_zero_value),
+      munit_test("main/test_new_employee", test_new_employee),
+      munit_test("main/test_new_department", test_new_department),
+      munit_test("main/test_new_department_manager",
+                 test_new_department_manager),
 
       munit_null_test,
   };

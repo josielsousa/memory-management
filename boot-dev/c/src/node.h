@@ -1,5 +1,6 @@
 #pragma once
 
+// Forward reference
 typedef struct Node node_t;
 
 struct Node {

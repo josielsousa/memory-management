@@ -20,6 +20,20 @@ void dump_graphics(graphics_t graphics[10]) {
   }
 }
 
+// In C language, the pointers are always the same size, because they just
+// represent a memory address.
+// The size of a pointer is 4 bytes in a 32-bit system and
+// 8 bytes in a 64-bit system.
+void pointers_size() {
+  int *ptr;
+  char *ptr3;
+  double *ptr2;
+
+  printf("==> Size of int pointer: %zu\n", sizeof(ptr));
+  printf("==> Size of char pointer: %zu\n", sizeof(ptr3));
+  printf("==> Size of double pointer: %zu\n", sizeof(ptr2));
+}
+
 // cc boot-dev/c/array_casting.c -o out/array_casting.o && ./out/array_casting.o
 int main() {
   graphics_t graphics[10] = {{.fps = 60, .height = 1380, .width = 2160},
@@ -34,4 +48,5 @@ int main() {
                              {.fps = 900, .height = 1080, .width = 1920}};
 
   dump_graphics(graphics);
+  pointers_size();
 }

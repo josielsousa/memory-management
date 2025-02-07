@@ -46,3 +46,13 @@ struct Coordinate update_and_return_coordinate_x(struct Coordinate c, int x) {
 // update_coordinate_y_by_reference - update the y-coordinate of a Coordinate by
 // reference
 void update_coordinate_y_by_reference(struct Coordinate *c, int y) { c->y = y; }
+
+// update_coordinate_z_by_dereference - update the z-coordinate of a Coordinate
+// by dereference the pointer received and return the new Coordinate.
+struct Coordinate update_coordinate_z_by_dereference(struct Coordinate *c,
+                                                     int z) {
+  struct Coordinate new_c = *c;
+  new_c.z = z;
+
+  return new_c;
+}

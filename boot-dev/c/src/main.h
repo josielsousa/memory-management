@@ -67,3 +67,6 @@ void update_coordinate_x(struct Coordinate c, int x);
 struct Coordinate update_and_return_coordinate_x(struct Coordinate c, int x);
 
 void update_coordinate_y_by_reference(struct Coordinate *c, int y);
+
+struct Coordinate update_coordinate_z_by_dereference(struct Coordinate *c,
+                                                     int z);

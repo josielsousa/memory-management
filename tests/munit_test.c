@@ -254,8 +254,45 @@ static MunitResult test_smart_append(const MunitParameter params[],
   (void)data;
 
   TextBuffer buffer = {.length = 0, .buffer = ""};
-  smart_append(&buffer, "Hello");
+  int status = smart_append(&buffer, "Hello");
+  assert_int(status, ==, 0);
   assert_string_equal(buffer.buffer, "Hello");
+  assert_int(buffer.length, ==, 5);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_smart_append_nullable(const MunitParameter params[],
+                                              void *data) {
+  (void)params;
+  (void)data;
+
+  TextBuffer buffer = {0};
+  const char *src = {0};
+
+  int status = smart_append(&buffer, src);
+  assert_int(status, ==, 1);
+  assert_string_equal(buffer.buffer, "");
+  assert_int(buffer.length, ==, 0);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_smart_append_overflow(const MunitParameter params[],
+                                              void *data) {
+  (void)params;
+  (void)data;
+
+  TextBuffer buffer = {0};
+  const char *src =
+      "This is a very long string that will not fit in the buffer because it ";
+
+  int status = smart_append(&buffer, src);
+  assert_int(status, ==, 1);
+  assert_string_equal(
+      buffer.buffer,
+      "This is a very long string that will not fit in the buffer beca");
+  assert_int(buffer.length, ==, 63);
 
   return MUNIT_OK;
 }
@@ -283,6 +320,8 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_concatenate_strings_roots",
                  test_concatenate_strings_roots),
       munit_test("main/test_smart_append", test_smart_append),
+      munit_test("main/test_smart_append_nullable", test_smart_append_nullable),
+      munit_test("main/test_smart_append_overflow", test_smart_append_overflow),
 
       munit_null_test,
   };

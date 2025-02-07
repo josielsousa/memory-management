@@ -32,7 +32,7 @@ int smart_append(TextBuffer *dest, const char *src) {
 
   const int MAX_BUFFER_SIZE = 64;
   int src_length = strlen(src);
-  int remaining_space = MAX_BUFFER_SIZE - dest->length - 1;
+  int remaining_space = sizeof(dest->buffer) - dest->length - 1;
 
   if (src_length > remaining_space) {
     strncat(dest->buffer, src, remaining_space);

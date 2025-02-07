@@ -1,4 +1,5 @@
 #include "my_strings.h"
+#include "node.h"
 
 // #pragma once - evita que essas definições sejam incluídas mais de uma vez
 

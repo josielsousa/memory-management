@@ -297,6 +297,37 @@ static MunitResult test_smart_append_overflow(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_new_node(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  node_t *node = new_node(1, NULL);
+  assert_int(node->data, ==, 1);
+  assert_ptr(node->next, ==, NULL);
+
+  node_t *node2 = new_node(2, node);
+
+  assert_int(node2->data, ==, 2);
+  assert_ptr(node2->next, ==, node);
+  assert_ptr(node->next, ==, NULL);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_new_node_zero_value(const MunitParameter params[],
+                                            void *data) {
+  (void)params;
+  (void)data;
+
+  node_t *zero = {0};
+
+  node_t *node = new_node(1, zero);
+  assert_int(node->data, ==, 1);
+  assert_ptr(node->next, ==, NULL);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -322,6 +353,8 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_smart_append", test_smart_append),
       munit_test("main/test_smart_append_nullable", test_smart_append_nullable),
       munit_test("main/test_smart_append_overflow", test_smart_append_overflow),
+      munit_test("main/test_new_node", test_new_node),
+      munit_test("main/test_new_node_zero_value", test_new_node_zero_value),
 
       munit_null_test,
   };

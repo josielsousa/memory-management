@@ -124,6 +124,34 @@ static MunitResult test_better_aligned(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_update_coordinate_x(const MunitParameter params[],
+                                            void *data) {
+  (void)params;
+  (void)data;
+
+  struct Coordinate c = new_coordinate(1, 2, 3);
+  update_coordinate_x(c, 4);
+
+  assert_int(c.x, ==, 1);
+
+  return MUNIT_OK;
+}
+
+// test_update_and_return_coordinate_x - assert that
+// update_and_return_coordinate_x
+static MunitResult
+test_update_and_return_coordinate_x(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  struct Coordinate c = new_coordinate(1, 2, 3);
+  struct Coordinate updated = update_and_return_coordinate_x(c, 4);
+
+  assert_int(updated.x, ==, 4);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -133,6 +161,9 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_new_human", test_new_human),
       munit_test("main/test_poorly_aligned", test_poorly_aligned),
       munit_test("main/test_better_aligned", test_better_aligned),
+      munit_test("main/test_update_coordinate_x", test_update_coordinate_x),
+      munit_test("main/test_update_and_return_coordinate_x",
+                 test_update_and_return_coordinate_x),
       munit_null_test,
   };
 

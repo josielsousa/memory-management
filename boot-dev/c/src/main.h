@@ -61,3 +61,7 @@ struct Coordinate new_coordinate(int x, int y, int z);
 struct Coordinate scale_coordinate(struct Coordinate c, int scale);
 
 human_t new_human(char *name, int age, int is_alive);
+
+void update_coordinate_x(struct Coordinate c, int x);
+
+struct Coordinate update_and_return_coordinate_x(struct Coordinate c, int x);

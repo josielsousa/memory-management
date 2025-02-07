@@ -26,3 +26,15 @@ human_t new_human(char *name, int age, int is_alive) {
       .is_alive = is_alive,
   };
 }
+
+// update_coordinate_x - update the x-coordinate of a Coordinate but do not
+// return it
+void update_coordinate_x(struct Coordinate c, int x) { c.x = x; }
+
+// update_and_return_coordinate_x - update the x-coordinate of a Coordinate and
+// return it
+struct Coordinate update_and_return_coordinate_x(struct Coordinate c, int x) {
+  c.x = x;
+
+  return c;
+}

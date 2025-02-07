@@ -70,3 +70,10 @@ void update_coordinate_y_by_reference(struct Coordinate *c, int y);
 
 struct Coordinate update_coordinate_z_by_dereference(struct Coordinate *c,
                                                      int z);
+
+// Complete the `update_file` function to update the file data with the new file
+// type and number of lines.
+// The `1` index is the file type
+// The `2` index is the number of lines
+// The `199` index always should be `0`
+void update_file(int filedata[200], int new_file_type, int new_num_lines);

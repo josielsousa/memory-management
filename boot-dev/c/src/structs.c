@@ -56,3 +56,13 @@ struct Coordinate update_coordinate_z_by_dereference(struct Coordinate *c,
 
   return new_c;
 }
+
+// Complete the `update_file` function to update the file data with the new file
+// type and number of lines. The file data is an array of 200 integers. The
+// first integer is the file type, and the second integer is the number of lines
+// in the file, and the 199 index shoud be 0. The function should not return
+void update_file(int filedata[200], int new_file_type, int new_num_lines) {
+  filedata[1] = new_file_type;
+  filedata[2] = new_num_lines;
+  filedata[199] = 0;
+}

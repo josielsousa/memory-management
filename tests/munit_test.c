@@ -184,6 +184,21 @@ test_update_coordinate_z_by_dereference(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+// test_update_file - assert that update_file updates the file data
+// with the new file type and number of lines.
+static MunitResult test_update_file(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  int file_data[200] = {0};
+  update_file(file_data, 1, 150);
+  assert_int(file_data[1], ==, 1);
+  assert_int(file_data[2], ==, 150);
+  assert_int(file_data[199], ==, 0);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -200,6 +215,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
                  test_update_coordinate_y_by_reference),
       munit_test("main/test_update_coordinate_z_by_dereference",
                  test_update_coordinate_z_by_dereference),
+      munit_test("main/test_update_file", test_update_file),
       munit_null_test,
   };
 

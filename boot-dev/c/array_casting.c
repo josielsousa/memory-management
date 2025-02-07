@@ -34,6 +34,19 @@ void pointers_size() {
   printf("==> Size of double pointer: %zu\n", sizeof(ptr2));
 }
 
+// In C language, the size of an array is the size of the data type multiplied
+// by the number of elements in the array.
+// Now the size is equals to size of the array and the size of the data type.
+void pointers_size_array() {
+  int intArray[10];       // 10 elements of 4 bytes each == 40 bytes
+  char charArray[10];     // 10 elements of 1 byte each  == 10 bytes
+  double doubleArray[10]; // 10 elements of 8 bytes each == 80 bytes
+
+  printf("==> Size of int array pointer: %zu\n", sizeof(intArray));
+  printf("==> Size of char array pointer: %zu\n", sizeof(charArray));
+  printf("==> Size of double array pointer: %zu\n", sizeof(doubleArray));
+}
+
 // cc boot-dev/c/array_casting.c -o out/array_casting.o && ./out/array_casting.o
 int main() {
   graphics_t graphics[10] = {{.fps = 60, .height = 1380, .width = 2160},
@@ -49,4 +62,5 @@ int main() {
 
   dump_graphics(graphics);
   pointers_size();
+  pointers_size_array();
 }

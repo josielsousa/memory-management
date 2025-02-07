@@ -2,7 +2,7 @@
 CC = cc
 
 # Diretórios
-SRC_DIR = boot-dev/c/src
+SRC_DIR = src
 TESTS_DIR = tests
 MUNIT_DIR = munit
 
@@ -27,6 +27,7 @@ test: format test_suite
 clean:
 	@echo "==> Limpando o output..."
 	rm -f out/*.o
+	rm -f boot-dev-basics/*.o
 
 # Gerar arquivo de configuração de estilo de código
 code-style:

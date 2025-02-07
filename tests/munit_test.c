@@ -1,7 +1,7 @@
 #define MUNIT_ENABLE_ASSERT_ALIASES
 #include "../munit/munit.h"
 
-#include "../boot-dev/c/src/main.h"
+#include "../src/main.h"
 
 // ############################################################################
 // Helpers

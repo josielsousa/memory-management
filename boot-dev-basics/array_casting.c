@@ -47,7 +47,7 @@ void pointers_size_array() {
   printf("==> Size of double array pointer: %zu\n", sizeof(doubleArray));
 }
 
-// cc boot-dev/c/array_casting.c -o out/array_casting.o && ./out/array_casting.o
+// cc array_casting.c -o array_casting.o && ./array_casting.o
 int main() {
   graphics_t graphics[10] = {{.fps = 60, .height = 1380, .width = 2160},
                              {.fps = 75, .height = 1440, .width = 2560},

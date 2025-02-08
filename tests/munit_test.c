@@ -417,6 +417,46 @@ static MunitResult test_enum_color(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+static MunitResult test_enum_http_status(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  http_status_t status = STATUS_OK;
+  assert_int(status, ==, 200);
+  assert_int(STATUS_OK, ==, 200);
+  assert_int(STATUS_BAD_REQUEST, ==, 400);
+  assert_int(STATUS_INTERNAL_SERVER_ERROR, ==, 500);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_enum_http_status_to_str(const MunitParameter params[],
+                                                void *data) {
+  (void)params;
+  (void)data;
+
+  char *status = http_to_str(STATUS_OK);
+  assert_string_equal(status, "200 OK");
+
+  status = http_to_str(STATUS_BAD_REQUEST);
+  assert_string_equal(status, "400 Bad Request");
+
+  status = http_to_str(STATUS_FORBIDDEN);
+  assert_string_equal(status, "403 Forbidden");
+
+  status = http_to_str(STATUS_NOT_FOUND);
+  assert_string_equal(status, "404 Not Found");
+
+  status = http_to_str(STATUS_INTERNAL_SERVER_ERROR);
+  assert_string_equal(status, "500 Internal Server Error");
+
+  status = http_to_str(600);
+  assert_string_equal(status, "Unknown");
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -450,6 +490,9 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
                  test_new_department_manager),
       munit_test("main/test_enum_day_of_week", test_enum_day_of_week),
       munit_test("main/test_enum_color", test_enum_color),
+      munit_test("main/test_enum_http_status", test_enum_http_status),
+      munit_test("main/test_enum_http_status_to_str",
+                 test_enum_http_status_to_str),
 
       munit_null_test,
   };

@@ -5,6 +5,10 @@ typedef enum SnekObjectKind {
   STRING = 2,
 } snek_object_kind_t;
 
+// Onion - a data structure that can store different types of data
+// but only one at a time.
+// It's like a struct, but all fields share the same memory space.
+// The size of the union is the size of the largest field.
 typedef union SnekObjectData {
   int v_int;
   char *v_string;

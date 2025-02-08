@@ -1,6 +1,7 @@
 #define MUNIT_ENABLE_ASSERT_ALIASES
 
 #include "munit/munit.h"
+#include "src/enums.h"
 #include "src/main.h"
 #include "src/my_strings.h"
 #include "src/node.h"
@@ -389,6 +390,21 @@ static MunitResult test_new_department(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_enum_day_of_week(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  event_t event = {.name = "Meeting", .day = MONDAY};
+  assert_string_equal(event.name, "Meeting");
+  assert_int(event.day, ==, MONDAY);
+  assert_int(SUNDAY, ==, 1);
+  assert_int(MONDAY, ==, 2);
+  assert_int(SATURDAY, ==, 7);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -420,6 +436,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_new_department", test_new_department),
       munit_test("main/test_new_department_manager",
                  test_new_department_manager),
+      munit_test("main/test_enum_day_of_week", test_enum_day_of_week),
 
       munit_null_test,
   };

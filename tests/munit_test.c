@@ -5,6 +5,7 @@
 #include "src/main.h"
 #include "src/my_strings.h"
 #include "src/node.h"
+#include "src/unions.h"
 
 // ############################################################################
 // Helpers
@@ -457,6 +458,33 @@ static MunitResult test_enum_http_status_to_str(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_unions_snek_object(const MunitParameter params[],
+                                           void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t obj = new_integer(42);
+  assert_int(obj.kind, ==, INTEGER);
+  assert_int(obj.data.v_int, ==, 42);
+
+  snek_object_t obj2 = new_string("Hello");
+  assert_int(obj2.kind, ==, STRING);
+  assert_string_equal(obj2.data.v_string, "Hello");
+
+  char buffer[15];
+  format_object(obj, buffer);
+  assert_string_equal(buffer, "integer:42\n");
+
+  format_object(obj2, buffer);
+  assert_string_equal(buffer, "string:Hello\n");
+
+  snek_object_t obj_unknown = {0};
+  format_object(obj_unknown, buffer);
+  assert_string_equal(buffer, "unknown\n");
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -493,6 +521,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_enum_http_status", test_enum_http_status),
       munit_test("main/test_enum_http_status_to_str",
                  test_enum_http_status_to_str),
+      munit_test("main/test_unions_snek_object", test_unions_snek_object),
 
       munit_null_test,
   };

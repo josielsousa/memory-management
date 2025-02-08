@@ -405,6 +405,18 @@ static MunitResult test_enum_day_of_week(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_enum_color(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  color_t color = GREEN;
+  assert_int(color, ==, 127);
+  assert_int(RED, ==, 83);
+  assert_int(GREEN, !=, BLUE);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -437,6 +449,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_new_department_manager",
                  test_new_department_manager),
       munit_test("main/test_enum_day_of_week", test_enum_day_of_week),
+      munit_test("main/test_enum_color", test_enum_color),
 
       munit_null_test,
   };

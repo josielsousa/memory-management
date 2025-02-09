@@ -3,6 +3,8 @@
 
 // cc stack.c -o stack.o && ./stack.o
 int main() {
+  // on this approach the stack grows
+  // and release after the function call
   printMessageOne();
   printMessageTwo();
   printMessageThree();

@@ -8,6 +8,9 @@ int main() {
   printMessageOne();
   printMessageTwo();
   printMessageThree();
+
+  // on this approach the stack grows
+  printMessageOneBadApproach();
   return 0;
 }
 
@@ -15,18 +18,11 @@ void printMessageOne() {
   const char *message = "Dark mode?\n";
   printStackPointerDiff();
   printf("%s\n", message);
-
-  // stack grows down when calling functions sequentially.
-  // printMessageTwo();
 }
-
 void printMessageTwo() {
   const char *message = "More like...\n";
   printStackPointerDiff();
   printf("%s\n", message);
-
-  // stack grows down when calling functions sequentially.
-  // printMessageThree();
 }
 
 void printMessageThree() {
@@ -50,4 +46,25 @@ void printStackPointerDiff() {
   printf("---------------------------------\n");
   printf("Stack pointer offset: %ld bytes\n", diff);
   printf("---------------------------------\n");
+}
+
+void printMessageOneBadApproach() {
+  const char *message = "Dark mode?\n";
+  printStackPointerDiff();
+
+  printf("%s\n", message);
+  printMessageTwoBadApproach();
+}
+
+void printMessageTwoBadApproach() {
+  const char *message = "More like...\n";
+  printStackPointerDiff();
+  printf("%s\n", message);
+  printMessageThreeBadApproach();
+}
+
+void printMessageThreeBadApproach() {
+  const char *message = "dark roast.\n";
+  printStackPointerDiff();
+  printf("%s\n", message);
 }

@@ -2,6 +2,7 @@
 
 #include "munit/munit.h"
 #include "src/enums.h"
+#include "src/heap.h"
 #include "src/main.h"
 #include "src/my_strings.h"
 #include "src/node.h"
@@ -494,6 +495,23 @@ static MunitResult test_unions_snek_object(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_is_pointer_on_stack(const MunitParameter params[],
+                                            void *data) {
+  (void)params;
+  (void)data;
+
+  int value = 42;
+  int *ptr = &value;
+
+  assert_true(is_on_stack(ptr));
+
+  employee_t *engineer = new_employee(2, "John Doe", NULL);
+  assert_false(is_on_stack(engineer));
+  free(engineer);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -531,6 +549,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_enum_http_status_to_str",
                  test_enum_http_status_to_str),
       munit_test("main/test_unions_snek_object", test_unions_snek_object),
+      munit_test("main/test_is_pointer_on_stack", test_is_pointer_on_stack),
 
       munit_null_test,
   };

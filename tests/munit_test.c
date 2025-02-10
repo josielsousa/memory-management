@@ -512,6 +512,53 @@ static MunitResult test_is_pointer_on_stack(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_allocate_scallar_list(const MunitParameter params[],
+                                              void *data) {
+  (void)params;
+  (void)data;
+
+  int *list = allocate_scallar_list(5, 2);
+  int expected[5] = {0, 2, 4, 6, 8};
+
+  for (int i = 0; i < 5; i++) {
+    assert_int(list[i], ==, expected[i]);
+  }
+
+  free(list);
+
+  return MUNIT_OK;
+}
+
+static MunitResult
+test_allocate_scallar_list_zero(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  int *list = allocate_scallar_list(5, 0);
+  int expected[5] = {0, 0, 0, 0, 0};
+
+  for (int i = 0; i < 5; i++) {
+    assert_int(list[i], ==, expected[i]);
+  }
+
+  free(list);
+
+  return MUNIT_OK;
+}
+
+static MunitResult
+test_allocate_scallar_list_null_giant_size(const MunitParameter params[],
+                                           void *data) {
+  (void)params;
+  (void)data;
+
+  int size = 1024 * 1024 * 1024;
+  int *list = allocate_scallar_list(size, 0);
+  assert_ptr(list, ==, NULL);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -550,6 +597,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
                  test_enum_http_status_to_str),
       munit_test("main/test_unions_snek_object", test_unions_snek_object),
       munit_test("main/test_is_pointer_on_stack", test_is_pointer_on_stack),
+      munit_test("main/test_allocate_scallar_list", test_allocate_scallar_list),
 
       munit_null_test,
   };

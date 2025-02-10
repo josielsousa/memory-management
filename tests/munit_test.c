@@ -315,6 +315,9 @@ static MunitResult test_new_node(const MunitParameter params[], void *data) {
   assert_ptr(node2->next, ==, node);
   assert_ptr(node->next, ==, NULL);
 
+  free(node2);
+  free(node);
+
   return MUNIT_OK;
 }
 
@@ -328,6 +331,8 @@ static MunitResult test_new_node_zero_value(const MunitParameter params[],
   node_t *node = new_node(1, zero);
   assert_int(node->data, ==, 1);
   assert_ptr(node->next, ==, NULL);
+
+  free(node);
 
   return MUNIT_OK;
 }
@@ -375,6 +380,10 @@ static MunitResult test_new_department_manager(const MunitParameter params[],
   assert_ptr(engineer->department->manager, !=, NULL);
   assert_string_equal(engineer->department->manager->name, "Mary Jane");
   assert_int(engineer->department->manager->id, ==, 1);
+
+  free(engineer);
+  free(department);
+  free(manager);
 
   return MUNIT_OK;
 }

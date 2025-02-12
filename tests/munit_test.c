@@ -6,6 +6,7 @@
 #include "src/main.h"
 #include "src/my_strings.h"
 #include "src/node.h"
+#include "src/pointers.h"
 #include "src/unions.h"
 
 // ############################################################################
@@ -547,15 +548,22 @@ test_allocate_scallar_list_zero(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
-static MunitResult
-test_allocate_scallar_list_null_giant_size(const MunitParameter params[],
-                                           void *data) {
+static MunitResult test_snek_zero_out(const MunitParameter params[],
+                                      void *data) {
   (void)params;
   (void)data;
 
-  int size = 1024 * 1024 * 1024;
-  int *list = allocate_scallar_list(size, 0);
-  assert_ptr(list, ==, NULL);
+  snek_int_t integer = {.name = "value", .value = 42};
+  snek_zero_out(&integer, INT);
+  assert_int(integer.value, ==, 0);
+
+  snek_float_t floating = {.name = "value", .value = 3.14};
+  snek_zero_out(&floating, FLOAT);
+  assert_float(floating.value, ==, 0.0);
+
+  snek_bool_t boolean = {.name = "value", .value = true};
+  snek_zero_out(&boolean, BOOL);
+  assert_false(boolean.value);
 
   return MUNIT_OK;
 }
@@ -599,6 +607,9 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_unions_snek_object", test_unions_snek_object),
       munit_test("main/test_is_pointer_on_stack", test_is_pointer_on_stack),
       munit_test("main/test_allocate_scallar_list", test_allocate_scallar_list),
+      munit_test("main/test_allocate_scallar_list_zero",
+                 test_allocate_scallar_list_zero),
+      munit_test("main/test_snek_zero_out", test_snek_zero_out),
 
       munit_null_test,
   };

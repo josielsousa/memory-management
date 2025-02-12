@@ -1,3 +1,6 @@
+#include "swaps.h"
+#include <string.h>
+
 void swap_ints(int *a, int *b) {
   int temp = *a;
   *a = *b;
@@ -12,4 +15,24 @@ void swap_strings(char **a, char **b) {
 
   *a = *b;
   *b = temp;
+}
+
+void swap(void *vp1, void *vp2, size_t size) {
+  void *temp = malloc(size);
+  if (temp == NULL) {
+    return;
+  }
+
+  // copy the content of vp1 to temp
+  memcpy(temp, vp1, size);
+
+  // copy the content of vp2 to vp1
+  memcpy(vp1, vp2, size);
+
+  // copy the content of temp to vp2
+  memcpy(vp2, temp, size);
+
+  // it's important to free the memory allocated
+  // else its will be a memory leak
+  free(temp);
 }

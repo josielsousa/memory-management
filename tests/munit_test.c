@@ -600,6 +600,37 @@ static MunitResult test_swap_strings(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_swap(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  int a = 10;
+  int b = 20;
+
+  swap(&a, &b, sizeof(int));
+
+  assert_int(a, ==, 20);
+  assert_int(b, ==, 10);
+
+  // swap strings
+  char *str1 = "Hello";
+  char *str2 = "World";
+
+  swap(&str1, &str2, sizeof(char *));
+  assert_string_equal(str1, "World");
+  assert_string_equal(str2, "Hello");
+
+  // swap custom type
+  snek_int_t integer1 = {.name = "value", .value = 42};
+  snek_int_t integer2 = {.name = "value", .value = 24};
+
+  swap(&integer1, &integer2, sizeof(snek_int_t));
+  assert_int(integer1.value, ==, 24);
+  assert_int(integer2.value, ==, 42);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -644,6 +675,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_snek_zero_out", test_snek_zero_out),
       munit_test("main/test_swap_ints", test_swap_ints),
       munit_test("main/test_swap_strings", test_swap_strings),
+      munit_test("main/test_swap", test_swap),
 
       munit_null_test,
   };

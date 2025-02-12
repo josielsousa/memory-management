@@ -12,3 +12,6 @@ int munit_misc_tests_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]);
 
 int munit_strings_tests_cases(int argc,
                               char *argv[MUNIT_ARRAY_PARAM(argc + 1)]);
+
+int munit_structs_enums_cases(int argc,
+                              char *argv[MUNIT_ARRAY_PARAM(argc + 1)]);

@@ -222,7 +222,7 @@ static MunitResult test_concatenate_strings_roots(const MunitParameter params[],
 
 int munit_misc_tests_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
-      munit_test("misc/test_compate_integer", test_compare_integer),
+      munit_test("misc/test_compare_integer", test_compare_integer),
       munit_test("misc/test_get_language", test_get_language),
       munit_test("misc/test_new_coordinate", test_new_coordinate),
       munit_test("misc/test_scale_coordinate", test_scale_coordinate),

@@ -7,6 +7,7 @@
 #include "src/my_strings.h"
 #include "src/node.h"
 #include "src/pointers.h"
+#include "src/swaps.h"
 #include "src/unions.h"
 
 // ############################################################################
@@ -568,6 +569,21 @@ static MunitResult test_snek_zero_out(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_swap_ints(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  int a = 10;
+  int b = 20;
+
+  swap_ints(&a, &b);
+
+  assert_int(a, ==, 20);
+  assert_int(b, ==, 10);
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -610,6 +626,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("main/test_allocate_scallar_list_zero",
                  test_allocate_scallar_list_zero),
       munit_test("main/test_snek_zero_out", test_snek_zero_out),
+      munit_test("main/test_swap_ints", test_swap_ints),
 
       munit_null_test,
   };

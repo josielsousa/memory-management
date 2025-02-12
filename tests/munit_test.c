@@ -584,6 +584,22 @@ static MunitResult test_swap_ints(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+static MunitResult test_swap_strings(const MunitParameter params[],
+                                     void *data) {
+  (void)params;
+  (void)data;
+
+  char *a = "Hello";
+  char *b = "World";
+
+  swap_strings(&a, &b);
+
+  assert_string_equal(a, "World");
+  assert_string_equal(b, "Hello");
+
+  return MUNIT_OK;
+}
+
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests[] = {
       munit_test("main/test_compate_integer", test_compare_integer),
@@ -627,6 +643,7 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
                  test_allocate_scallar_list_zero),
       munit_test("main/test_snek_zero_out", test_snek_zero_out),
       munit_test("main/test_swap_ints", test_swap_ints),
+      munit_test("main/test_swap_strings", test_swap_strings),
 
       munit_null_test,
   };

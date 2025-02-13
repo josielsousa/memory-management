@@ -77,6 +77,25 @@ static MunitResult test_new_snek_vector(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_new_snek_array(const MunitParameter params[],
+                                       void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *obj = new_snek_array(5);
+  assert_not_null(obj);
+  assert_int(obj->kind, ==, ARRAY);
+  assert_int(obj->data.v_array.size, ==, 5);
+
+  assert_not_null(obj->data.v_array.elements);
+  assert_null(obj->data.v_array.elements[0]);
+
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
 int munit_objects_tests_cases(int argc,
                               char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -84,6 +103,7 @@ int munit_objects_tests_cases(int argc,
       munit_test("stack/test_new_snek_float", test_new_snek_float),
       munit_test("stack/test_new_snek_string", test_new_snek_string),
       munit_test("stack/test_new_snek_vector", test_new_snek_vector),
+      munit_test("stack/test_new_snek_array", test_new_snek_array),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

@@ -62,3 +62,27 @@ snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
 
   return obj;
 }
+
+snek_object_t *new_snek_array(size_t size) {
+  snek_object_t *obj = malloc(sizeof(snek_object_t));
+  if (obj == NULL) {
+    return NULL;
+  }
+
+  obj->kind = ARRAY;
+  obj->data.v_array.size = size;
+
+  snek_object_t **elements = calloc(sizeof(snek_object_t *), size);
+  if (elements == NULL) {
+    return NULL;
+  }
+
+  snek_array_t array = {size, elements};
+  obj->data.v_array = array;
+
+  for (size_t i = 0; i < size; i++) {
+    obj->data.v_array.elements[i] = NULL;
+  }
+
+  return obj;
+}

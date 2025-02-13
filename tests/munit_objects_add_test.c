@@ -87,6 +87,82 @@ static MunitResult test_snek_string_add_self(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_snek_vector3_add(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *one = new_snek_float(1.0);
+  snek_object_t *two = new_snek_float(2.0);
+  snek_object_t *three = new_snek_float(3.0);
+  snek_object_t *four = new_snek_float(4.0);
+  snek_object_t *five = new_snek_float(5.0);
+  snek_object_t *six = new_snek_float(6.0);
+
+  snek_object_t *v1 = new_snek_vector(one, two, three);
+  snek_object_t *v2 = new_snek_vector(four, five, six);
+  snek_object_t *result = snek_add(v1, v2);
+
+  free(v1->data.v_vector3.x);
+  free(v1->data.v_vector3.y);
+  free(v1->data.v_vector3.z);
+  free(v1);
+
+  free(v2->data.v_vector3.x);
+  free(v2->data.v_vector3.y);
+  free(v2->data.v_vector3.z);
+  free(v2);
+
+  free(result->data.v_vector3.x);
+  free(result->data.v_vector3.y);
+  free(result->data.v_vector3.z);
+  free(result);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_snek_array_add(const MunitParameter params[],
+                                       void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *one = new_snek_integer(1);
+  snek_object_t *ones = new_snek_array(2);
+  assert(snek_array_set(ones, 0, one));
+  assert(snek_array_set(ones, 1, one));
+
+  snek_object_t *hi = new_snek_string("hi");
+  snek_object_t *hellos = new_snek_array(3);
+  assert(snek_array_set(hellos, 0, hi));
+  assert(snek_array_set(hellos, 1, hi));
+  assert(snek_array_set(hellos, 2, hi));
+
+  snek_object_t *result = snek_add(ones, hellos);
+
+  assert_not_null(result);
+  assert_int(result->kind, ==, ARRAY);
+
+  snek_object_t *first = snek_array_get(result, 0);
+  assert_not_null(first);
+  assert_int(first->data.v_int, ==, 1);
+
+  snek_object_t *third = snek_array_get(result, 2);
+  assert_not_null(third);
+  assert_string_equal(third->data.v_string, "hi");
+
+  free(one);
+  free(ones->data.v_array.elements);
+  free(ones);
+
+  free(hi->data.v_string);
+  free(hi);
+  free(hellos->data.v_array.elements);
+  free(hellos);
+  free(result->data.v_array.elements);
+  free(result);
+  return MUNIT_OK;
+}
+
 int munit_objects_add_tests_cases(int argc,
                                   char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -94,6 +170,8 @@ int munit_objects_add_tests_cases(int argc,
       munit_test("object_add/float_add", test_snek_float_add),
       munit_test("object_add/string_add", test_snek_string_add),
       munit_test("object_add/string_add_self", test_snek_string_add_self),
+      munit_test("object_add/vector3_add", test_snek_vector3_add),
+      munit_test("object_add/array_add", test_snek_array_add),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

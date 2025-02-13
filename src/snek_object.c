@@ -64,13 +64,13 @@ snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
 }
 
 snek_object_t *new_snek_array(size_t size) {
-  snek_object_t *obj = malloc(sizeof(snek_object_t));
-  if (obj == NULL) {
+  snek_object_t *new_array = malloc(sizeof(snek_object_t));
+  if (new_array == NULL) {
     return NULL;
   }
 
-  obj->kind = ARRAY;
-  obj->data.v_array.size = size;
+  new_array->kind = ARRAY;
+  new_array->data.v_array.size = size;
 
   snek_object_t **elements = calloc(sizeof(snek_object_t *), size);
   if (elements == NULL) {
@@ -78,13 +78,9 @@ snek_object_t *new_snek_array(size_t size) {
   }
 
   snek_array_t array = {size, elements};
-  obj->data.v_array = array;
+  new_array->data.v_array = array;
 
-  for (size_t i = 0; i < size; i++) {
-    obj->data.v_array.elements[i] = NULL;
-  }
-
-  return obj;
+  return new_array;
 }
 
 bool snek_array_set(snek_object_t *obj, size_t index, snek_object_t *value) {
@@ -187,6 +183,9 @@ snek_object_t *snek_add(snek_object_t *a, snek_object_t *b) {
 
     size_t size = a->data.v_array.size + b->data.v_array.size;
     snek_object_t *newarray = new_snek_array(size);
+    if (newarray == NULL) {
+      return NULL;
+    }
 
     for (size_t i = 0; i < a->data.v_array.size; i++) {
       snek_array_set(newarray, i, snek_array_get(a, i));
@@ -196,10 +195,8 @@ snek_object_t *snek_add(snek_object_t *a, snek_object_t *b) {
       snek_array_set(newarray, i + a->data.v_array.size, snek_array_get(b, i));
     }
 
-    return obj;
+    return newarray;
   default:
     return NULL;
   }
-
-  return new_snek_integer(a->data.v_int + b->data.v_int);
 }

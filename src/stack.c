@@ -42,3 +42,23 @@ void *stack_pop(stack_t *stack) {
 
   return stack->data[stack->count];
 }
+
+void free_stack(stack_t *stack) {
+  if (stack == NULL) {
+    return;
+  }
+
+  if (stack->data != NULL) {
+    free(stack->data);
+  }
+
+  free(stack);
+}
+
+void scary_double_push(stack_t *stack) {
+  stack_push(stack, (void *)1337);
+
+  int *ptr = (int *)malloc(sizeof(int));
+  *ptr = 42;
+  stack_push(stack, ptr);
+}

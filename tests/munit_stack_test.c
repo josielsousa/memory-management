@@ -85,6 +85,45 @@ static MunitResult test_stack_pop(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+static MunitResult test_stack_free(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  stack_t *stack = new_stack(10);
+  int value = 42;
+  stack_push(stack, &value);
+
+  free_stack(stack);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_scary_double_push(const MunitParameter params[],
+                                          void *data) {
+  (void)params;
+  (void)data;
+
+  stack_t *stack = new_stack(2);
+  assert_ptr(stack, !=, NULL);
+  assert_int(stack->count, ==, 0);
+  assert_int(stack->capacity, ==, 2);
+
+  scary_double_push(stack);
+
+  assert_int(stack->count, ==, 2);
+  assert_int(stack->capacity, ==, 2);
+
+  // int value = (int)stack->data[0]; // NOLINT
+  // assert_int(value, ==, 1337);
+
+  int *ptr2 = (int *)stack->data[1];
+  assert_int(*ptr2, ==, 42);
+
+  free_stack(stack);
+
+  return MUNIT_OK;
+}
+
 int munit_stack_tests_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
       munit_test("stack/test_new_stack", test_new_stack),
@@ -92,6 +131,8 @@ int munit_stack_tests_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("stack/test_stack_push_double_cap",
                  test_stack_push_double_cap),
       munit_test("stack/test_stack_pop", test_stack_pop),
+      munit_test("stack/test_stack_free", test_stack_free),
+      munit_test("stack/test_scary_double_push", test_scary_double_push),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

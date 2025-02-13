@@ -64,6 +64,46 @@ static MunitResult test_refcount_increment_null(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_refcount_decrement(const MunitParameter params[],
+                                           void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *obj = new_snek_integer(42);
+  assert_not_null(obj);
+  assert_int(obj->refcount, ==, 1);
+
+  refcount_incr(obj);
+  assert_int(obj->refcount, ==, 2);
+
+  refcount_decr(obj);
+  assert_int(obj->refcount, ==, 1);
+
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_refcount_decrement_string(const MunitParameter params[],
+                                                  void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *obj = new_snek_string("Hello @wagslane!");
+
+  refcount_incr(obj);
+  assert_int(obj->refcount, ==, 2);
+
+  refcount_decr(obj);
+  assert_int(obj->refcount, ==, 1);
+  assert_string_equal(obj->data.v_string, "Hello @wagslane!");
+
+  refcount_decr(obj);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
 int munit_refcount_tests_cases(int argc,
                                char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -72,6 +112,9 @@ int munit_refcount_tests_cases(int argc,
       munit_test("refcount/test_refcount_increment", test_refcount_increment),
       munit_test("refcount/test_refcount_increment_null",
                  test_refcount_increment_null),
+      munit_test("refcount/test_refcount_decrement", test_refcount_decrement),
+      munit_test("refcount/test_refcount_decrement_string",
+                 test_refcount_decrement_string),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

@@ -1,6 +1,45 @@
 #include "snek_object.h"
 #include <stdlib.h>
 
+void refcount_decr(snek_object_t *obj) {
+  if (obj == NULL) {
+    return;
+  }
+
+  obj->refcount--;
+  if (obj->refcount == 0) {
+    refcount_free(obj);
+  }
+}
+
+void refcount_free(snek_object_t *obj) {
+  if (obj == NULL) {
+    return;
+  }
+
+  switch (obj->kind) {
+  case INTEGER:
+    break;
+  case FLOATS:
+    break;
+  case STRING:
+    free(obj->data.v_string);
+    break;
+  case VECTOR3:
+    refcount_decr(obj->data.v_vector3.x);
+    refcount_decr(obj->data.v_vector3.y);
+    refcount_decr(obj->data.v_vector3.z);
+    free(obj);
+  case ARRAY:
+    for (size_t i = 0; i < obj->data.v_array.size; i++) {
+      refcount_decr(obj->data.v_array.elements[i]);
+    }
+    break;
+  }
+
+  free(obj);
+}
+
 void refcount_incr(snek_object_t *obj) {
   if (obj == NULL) {
     return;

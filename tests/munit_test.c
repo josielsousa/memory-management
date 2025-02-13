@@ -24,5 +24,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
     return stack_heap_result;
   }
 
+  int stack_result = munit_stack_tests_cases(argc, argv);
+  if (stack_result != 0) {
+    return stack_result;
+  }
+
   return 0;
 }

@@ -1,4 +1,5 @@
 #include "my_strings.h"
+#include <string.h>
 
 // smart_append - append src to dest, but only if it fits
 // in the buffer

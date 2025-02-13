@@ -60,6 +60,10 @@ snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
   obj->data.v_vector3.y = y;
   obj->data.v_vector3.z = z;
 
+  refcount_incr(x);
+  refcount_incr(y);
+  refcount_incr(z);
+
   return obj;
 }
 

@@ -104,6 +104,40 @@ static MunitResult test_refcount_decrement_string(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_refcount_vector3(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *foo = new_snek_integer(1);
+  snek_object_t *bar = new_snek_integer(2);
+  snek_object_t *baz = new_snek_integer(3);
+
+  snek_object_t *vec = new_snek_vector(foo, bar, baz);
+  assert_int(foo->refcount, ==, 2);
+  assert_int(bar->refcount, ==, 2);
+  assert_int(baz->refcount, ==, 2);
+
+  refcount_decr(foo);
+  assert_int(foo->refcount, ==, 1);
+
+  refcount_decr(vec);
+  // vec->refcount ==, 0
+  // foo->refcount ==, 0
+  // at this point, foo should be freed
+
+  // assert_int(bar->refcount, ==, 1);
+  // assert_int(baz->refcount, ==, 1);
+  //
+  // refcount_decr(bar);
+  // assert_int(bar->refcount, ==, 0);
+  //
+  // refcount_decr(baz);
+  // assert_int(baz->refcount, ==, 0);
+
+  return MUNIT_OK;
+}
+
 int munit_refcount_tests_cases(int argc,
                                char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -115,6 +149,7 @@ int munit_refcount_tests_cases(int argc,
       munit_test("refcount/test_refcount_decrement", test_refcount_decrement),
       munit_test("refcount/test_refcount_decrement_string",
                  test_refcount_decrement_string),
+      munit_test("refcount/test_refcount_vector3", test_refcount_vector3),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

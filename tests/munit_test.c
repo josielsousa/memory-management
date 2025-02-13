@@ -39,5 +39,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
     return objects_length_result;
   }
 
+  int objects_add_result = munit_objects_add_tests_cases(argc, argv);
+  if (objects_add_result != 0) {
+    return objects_add_result;
+  }
+
   return 0;
 }

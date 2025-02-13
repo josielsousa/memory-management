@@ -44,5 +44,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
     return objects_add_result;
   }
 
+  int refcount_result = munit_refcount_tests_cases(argc, argv);
+  if (refcount_result != 0) {
+    return refcount_result;
+  }
+
   return 0;
 }

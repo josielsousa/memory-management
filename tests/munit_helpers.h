@@ -19,3 +19,6 @@ int munit_structs_enums_cases(int argc,
 int munit_stack_heap_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]);
 
 int munit_stack_tests_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]);
+
+int munit_objects_tests_cases(int argc,
+                              char *argv[MUNIT_ARRAY_PARAM(argc + 1)]);

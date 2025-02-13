@@ -29,5 +29,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
     return stack_result;
   }
 
+  int objects_result = munit_objects_tests_cases(argc, argv);
+  if (objects_result != 0) {
+    return objects_result;
+  }
+
   return 0;
 }

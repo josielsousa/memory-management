@@ -111,3 +111,24 @@ snek_object_t *snek_array_get(snek_object_t *obj, size_t index) {
 
   return obj->data.v_array.elements[index];
 }
+
+int snek_length(snek_object_t *obj) {
+  if (obj == NULL) {
+    return -1;
+  }
+
+  switch (obj->kind) {
+  case INTEGER:
+    return 1;
+  case FLOATS:
+    return 1;
+  case STRING:
+    return 1;
+  case VECTOR3:
+    return 3;
+  case ARRAY:
+    return obj->data.v_array.size;
+  default:
+    return -1;
+  }
+}

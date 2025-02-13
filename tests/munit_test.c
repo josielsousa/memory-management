@@ -34,5 +34,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
     return objects_result;
   }
 
+  int objects_length_result = munit_objects_length_tests_cases(argc, argv);
+  if (objects_length_result != 0) {
+    return objects_length_result;
+  }
+
   return 0;
 }

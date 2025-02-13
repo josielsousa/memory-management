@@ -5,8 +5,8 @@
 #include "src/heap.h"
 #include "src/node.h"
 #include "src/pointers.h"
+#include "src/snek_object.h"
 #include "src/swaps.h"
-#include "src/unions.h"
 
 static MunitResult test_unions_snek_object(const MunitParameter params[],
                                            void *data) {

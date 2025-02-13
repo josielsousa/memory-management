@@ -14,6 +14,8 @@ static MunitResult test_new_sneak_integer(const MunitParameter params[],
   assert_int(obj->kind, ==, INTEGER);
   assert_int(obj->data.v_int, ==, 42);
 
+  free(obj);
+
   return MUNIT_OK;
 }
 
@@ -27,6 +29,24 @@ static MunitResult test_new_sneak_float(const MunitParameter params[],
   assert_int(obj->kind, ==, FLOATS);
   assert_float(obj->data.v_float, ==, 42.0);
 
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_new_sneak_string(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *obj = new_snek_string("Hello");
+  assert_not_null(obj);
+  assert_int(obj->kind, ==, STRING);
+  assert_string_equal(obj->data.v_string, "Hello");
+
+  free(obj->data.v_string);
+  free(obj);
+
   return MUNIT_OK;
 }
 
@@ -35,6 +55,7 @@ int munit_objects_tests_cases(int argc,
   MunitTest test_suite_tests_misc[] = {
       munit_test("stack/test_new_sneak_integer", test_new_sneak_integer),
       munit_test("stack/test_new_sneak_float", test_new_sneak_float),
+      munit_test("stack/test_new_sneak_string", test_new_sneak_string),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

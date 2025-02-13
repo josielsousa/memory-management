@@ -96,6 +96,51 @@ static MunitResult test_new_snek_array(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_snek_array_set(const MunitParameter params[],
+                                       void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *obj = new_snek_array(5);
+  assert_not_null(obj);
+
+  snek_object_t *value = new_snek_integer(42);
+  assert_not_null(value);
+
+  assert_true(snek_array_set(obj, 0, value));
+  assert_int(obj->data.v_array.elements[0]->data.v_int, ==, 42);
+
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_snek_array_get(const MunitParameter params[],
+                                       void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *obj = new_snek_array(5);
+  assert_not_null(obj);
+
+  snek_object_t *value = new_snek_integer(42);
+  assert_not_null(value);
+
+  int index = 0;
+  assert_true(snek_array_set(obj, index, value));
+  assert_int(obj->data.v_array.elements[index]->data.v_int, ==, 42);
+
+  snek_object_t *get = snek_array_get(obj, index);
+  assert_not_null(get);
+  assert_int(get->data.v_int, ==, 42);
+
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
 int munit_objects_tests_cases(int argc,
                               char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -104,6 +149,8 @@ int munit_objects_tests_cases(int argc,
       munit_test("stack/test_new_snek_string", test_new_snek_string),
       munit_test("stack/test_new_snek_vector", test_new_snek_vector),
       munit_test("stack/test_new_snek_array", test_new_snek_array),
+      munit_test("stack/test_snek_array_set", test_snek_array_set),
+      munit_test("stack/test_snek_array_get", test_snek_array_get),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

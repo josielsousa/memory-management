@@ -86,3 +86,28 @@ snek_object_t *new_snek_array(size_t size) {
 
   return obj;
 }
+
+bool snek_array_set(snek_object_t *obj, size_t index, snek_object_t *value) {
+  if (obj == NULL || value == NULL || obj->kind != ARRAY) {
+    return false;
+  }
+
+  if (index >= obj->data.v_array.size) {
+    return false;
+  }
+
+  obj->data.v_array.elements[index] = value;
+  return true;
+}
+
+snek_object_t *snek_array_get(snek_object_t *obj, size_t index) {
+  if (obj == NULL || obj->kind != ARRAY) {
+    return NULL;
+  }
+
+  if (index >= obj->data.v_array.size) {
+    return NULL;
+  }
+
+  return obj->data.v_array.elements[index];
+}

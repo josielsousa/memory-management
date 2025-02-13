@@ -2,10 +2,10 @@
 
 #include "munit/munit.h"
 #include "munit_helpers.h"
-#include "src/sneak_object.h"
+#include "src/snek_object.h"
 
-static MunitResult test_new_sneak_integer(const MunitParameter params[],
-                                          void *data) {
+static MunitResult test_new_snek_integer(const MunitParameter params[],
+                                         void *data) {
   (void)params;
   (void)data;
 
@@ -19,8 +19,8 @@ static MunitResult test_new_sneak_integer(const MunitParameter params[],
   return MUNIT_OK;
 }
 
-static MunitResult test_new_sneak_float(const MunitParameter params[],
-                                        void *data) {
+static MunitResult test_new_snek_float(const MunitParameter params[],
+                                       void *data) {
   (void)params;
   (void)data;
 
@@ -34,8 +34,8 @@ static MunitResult test_new_sneak_float(const MunitParameter params[],
   return MUNIT_OK;
 }
 
-static MunitResult test_new_sneak_string(const MunitParameter params[],
-                                         void *data) {
+static MunitResult test_new_snek_string(const MunitParameter params[],
+                                        void *data) {
   (void)params;
   (void)data;
 
@@ -50,12 +50,40 @@ static MunitResult test_new_sneak_string(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_new_snek_vector(const MunitParameter params[],
+                                        void *data) {
+  (void)params;
+  (void)data;
+
+  snek_object_t *obj_null = new_snek_vector(NULL, NULL, NULL);
+  assert_null(obj_null);
+
+  snek_object_t *x = new_snek_integer(1);
+  snek_object_t *y = new_snek_integer(2);
+  snek_object_t *z = new_snek_integer(3);
+
+  snek_object_t *obj = new_snek_vector(x, y, z);
+  assert_not_null(obj);
+  assert_int(obj->kind, ==, VECTOR3);
+  assert_int(obj->data.v_vector3.x->data.v_int, ==, 1);
+  assert_int(obj->data.v_vector3.y->data.v_int, ==, 2);
+  assert_int(obj->data.v_vector3.z->data.v_int, ==, 3);
+
+  free(obj->data.v_vector3.x);
+  free(obj->data.v_vector3.y);
+  free(obj->data.v_vector3.z);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
 int munit_objects_tests_cases(int argc,
                               char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
-      munit_test("stack/test_new_sneak_integer", test_new_sneak_integer),
-      munit_test("stack/test_new_sneak_float", test_new_sneak_float),
-      munit_test("stack/test_new_sneak_string", test_new_sneak_string),
+      munit_test("stack/test_new_snek_integer", test_new_snek_integer),
+      munit_test("stack/test_new_snek_float", test_new_snek_float),
+      munit_test("stack/test_new_snek_string", test_new_snek_string),
+      munit_test("stack/test_new_snek_vector", test_new_snek_vector),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

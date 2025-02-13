@@ -1,10 +1,19 @@
 #pragma once
+// Hey! this exists and we will define late.
+typedef struct SnekObject snek_object_t;
 
 typedef enum SnekObjectKind {
   INTEGER = 1,
   STRING = 2,
-  FLOATS = 3,
+  VECTOR3 = 3,
+  FLOATS = 4,
 } snek_object_kind_t;
+
+typedef struct SnekVector {
+  snek_object_t *x;
+  snek_object_t *y;
+  snek_object_t *z;
+} snek_vector_t;
 
 // Onion - a data structure that can store different types of data
 // but only one at a time.
@@ -14,6 +23,7 @@ typedef union SnekObjectData {
   int v_int;
   float v_float;
   char *v_string;
+  snek_vector_t v_vector3;
 } snek_object_data_t;
 
 typedef struct SnekObject {

@@ -123,7 +123,7 @@ int snek_length(snek_object_t *obj) {
   case FLOATS:
     return 1;
   case STRING:
-    return 1;
+    return strlen(obj->data.v_string);
   case VECTOR3:
     return 3;
   case ARRAY:

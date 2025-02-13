@@ -2,8 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-snek_object_t *new_snek_integer(int value) {
+snek_object_t *_new_snek_object(void) {
   snek_object_t *obj = malloc(sizeof(snek_object_t));
+  if (obj == NULL) {
+    return NULL;
+  }
+
+  obj->refcount = 1;
+  return obj;
+}
+
+snek_object_t *new_snek_integer(int value) {
+  snek_object_t *obj = _new_snek_object();
   if (obj == NULL) {
     return NULL;
   }
@@ -15,7 +25,7 @@ snek_object_t *new_snek_integer(int value) {
 }
 
 snek_object_t *new_snek_float(float value) {
-  snek_object_t *obj = malloc(sizeof(snek_object_t));
+  snek_object_t *obj = _new_snek_object();
   if (obj == NULL) {
     return NULL;
   }
@@ -27,7 +37,7 @@ snek_object_t *new_snek_float(float value) {
 }
 
 snek_object_t *new_snek_string(const char *value) {
-  snek_object_t *obj = malloc(sizeof(snek_object_t));
+  snek_object_t *obj = _new_snek_object();
   if (obj == NULL) {
     return NULL;
   }
@@ -50,7 +60,7 @@ snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
     return NULL;
   }
 
-  snek_object_t *obj = malloc(sizeof(snek_object_t));
+  snek_object_t *obj = _new_snek_object();
   if (obj == NULL) {
     return NULL;
   }
@@ -64,7 +74,7 @@ snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
 }
 
 snek_object_t *new_snek_array(size_t size) {
-  snek_object_t *new_array = malloc(sizeof(snek_object_t));
+  snek_object_t *new_array = _new_snek_object();
   if (new_array == NULL) {
     return NULL;
   }

@@ -36,7 +36,20 @@ typedef union SnekObjectData {
   snek_array_t v_array;
 } snek_object_data_t;
 
+// refcount - a reference count that keeps track of how many times
+// a snek_object_t is referenced.
+//
+// Reference counting is a simple way to manage memory in a garbage collector.
+//
+// - All objects keep track a integer refcount.
+// - When an object is created, its refcount is set to 1.
+// - When an object is referenced, its refcount is incremented.
+// - When an object is garbage collected, its refcount is decremented.
+// - When an object's refcount reaches 0, garbage collection is executed.
+//
 typedef struct SnekObject {
+  int refcount;
+
   snek_object_kind_t kind;
   snek_object_data_t data;
 } snek_object_t;
@@ -65,3 +78,5 @@ snek_object_t *snek_array_get(snek_object_t *obj, size_t index);
 int snek_length(snek_object_t *obj);
 
 snek_object_t *snek_add(snek_object_t *a, snek_object_t *b);
+
+snek_object_t *_new_snek_object(void);

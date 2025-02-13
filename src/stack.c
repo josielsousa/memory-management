@@ -21,13 +21,24 @@ stack_t *new_stack(size_t capacity) {
 void stack_push(stack_t *stack, void *value) {
   if (stack->count == stack->capacity) {
     stack->capacity *= 2;
-    stack->data = realloc(stack->data, sizeof(void *) * stack->capacity);
 
+    stack->data = realloc(stack->data, sizeof(void *) * stack->capacity);
     if (stack->data == NULL) {
+      stack->capacity /= 2;
       return;
     }
   }
 
   stack->data[stack->count] = value;
   stack->count++;
+}
+
+void *stack_pop(stack_t *stack) {
+  if (stack->count == 0) {
+    return NULL;
+  }
+
+  stack->count--;
+
+  return stack->data[stack->count];
 }

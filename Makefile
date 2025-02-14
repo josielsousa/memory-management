@@ -7,6 +7,7 @@ TESTS_DIR=tests
 MUNIT_DIR=munit
 PROJ_DIR=$(shell pwd)
 SRC_MAS_DIR=mark_and_sweep
+SHARED_DIR=shared
 TESTS_MAS_DIR=mark_and_sweep/tests
 
 # Flags CC compiler
@@ -14,6 +15,7 @@ CFLAGS=-Wall -Wextra -I$(MUNIT_DIR) -I$(SRC_DIR)
 
 # Sources
 SRC_FILES=$(wildcard $(SRC_DIR)/*.c)
+SHARED_FILES=$(wildcard $(SHARED_DIR)/*.c)
 TEST_FILES=$(wildcard $(TESTS_DIR)/*.c)
 MUNIT_FILES=$(MUNIT_DIR)/munit.c $(MUNIT_DIR)/munit.h
 
@@ -27,12 +29,12 @@ print:
 	@echo $(TEST_MAS_FILES)
 
 # Compile principal suite test
-principal_test_suite: $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES)
-	$(CC) $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES) -I$(PROJ_DIR) -o out/principal_test_suite.o
+principal_test_suite:
+	$(CC) $(SHARED_FILES) $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES) -I$(PROJ_DIR) -o out/principal_test_suite.o
 
 # Compile mark and  sweep suite test
-mas_test_suite: $(SRC_MAS_FILES) $(TEST_MAS_FILES) $(MUNIT_FILES)
-	$(CC) $(SRC_MAS_FILES) $(TEST_MAS_FILES) $(MUNIT_FILES) -I$(PROJ_DIR) -o out/mas_test_suite.o
+mas_test_suite:
+	$(CC) $(SHARED_FILES) $(SRC_MAS_FILES) $(TEST_MAS_FILES) $(MUNIT_FILES) -I$(PROJ_DIR) -o out/mas_test_suite.o
 
 # Run principal suite test
 test: format principal_test_suite

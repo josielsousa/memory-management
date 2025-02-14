@@ -124,6 +124,30 @@ static MunitResult test_scary_double_push(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_remove_nulls(const MunitParameter params[],
+                                     void *data) {
+  (void)params;
+  (void)data;
+
+  stack_t *stack = new_stack(2);
+  assert_ptr(stack, !=, NULL);
+  assert_int(stack->count, ==, 0);
+  assert_int(stack->capacity, ==, 2);
+
+  stack_push(stack, NULL);
+  stack_push(stack, NULL);
+  stack_push(stack, NULL);
+
+  stack_remove_nulls(stack);
+
+  assert_int(stack->count, ==, 0);
+  assert_int(stack->capacity, ==, 4);
+
+  free_stack(stack);
+
+  return MUNIT_OK;
+}
+
 int munit_stack_tests_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
       munit_test("stack/test_new_stack", test_new_stack),
@@ -133,6 +157,7 @@ int munit_stack_tests_cases(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
       munit_test("stack/test_stack_pop", test_stack_pop),
       munit_test("stack/test_stack_free", test_stack_free),
       munit_test("stack/test_scary_double_push", test_scary_double_push),
+      munit_test("stack/test_remove_nulls", test_remove_nulls),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

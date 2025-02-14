@@ -17,3 +17,5 @@ void *stack_pop(stack_t *stack);
 void free_stack(stack_t *stack);
 
 void scary_double_push(stack_t *stack);
+
+void stack_remove_nulls(stack_t *stack);

@@ -109,31 +109,29 @@ static MunitResult test_refcount_vector3(const MunitParameter params[],
   (void)params;
   (void)data;
 
-  // snek_object_t *foo = new_snek_integer(1);
-  // snek_object_t *bar = new_snek_integer(2);
-  // snek_object_t *baz = new_snek_integer(3);
-  //
+  snek_object_t *x = new_snek_integer(1);
+  snek_object_t *y = new_snek_integer(2);
+  snek_object_t *z = new_snek_integer(3);
+
+  snek_object_t *obj = new_snek_vector(x, y, z);
+  assert_not_null(obj);
+  assert_int(obj->kind, ==, VECTOR3);
+  assert_int(obj->data.v_vector3.x->data.v_int, ==, 1);
+  assert_int(obj->data.v_vector3.y->data.v_int, ==, 2);
+  assert_int(obj->data.v_vector3.z->data.v_int, ==, 3);
+
   // snek_object_t *vec = new_snek_vector(foo, bar, baz);
-  // assert_int(foo->refcount, ==, 2);
-  // assert_int(bar->refcount, ==, 2);
-  // assert_int(baz->refcount, ==, 2);
-  //
-  // refcount_decr(foo);
-  // assert_int(foo->refcount, ==, 1);
-  //
-  // refcount_decr(vec);
-  // vec->refcount ==, 0
-  // foo->refcount ==, 0
-  // at this point, foo should be freed
-  //
-  // assert_int(bar->refcount, ==, 1);
-  // assert_int(baz->refcount, ==, 1);
-  //
-  // refcount_decr(bar);
-  // assert_int(bar->refcount, ==, 0);
-  //
-  // refcount_decr(baz);
-  // assert_int(baz->refcount, ==, 0);
+  assert_int(x->refcount, ==, 2);
+  assert_int(y->refcount, ==, 2);
+  assert_int(z->refcount, ==, 2);
+
+  // `foo` is stil referenced in the `vec`, so it should not be freed.
+  refcount_decr(x);
+  refcount_decr(obj);
+
+  // Decrement the last reference to the objects, so they will be freed.
+  refcount_decr(y);
+  refcount_decr(z);
 
   return MUNIT_OK;
 }

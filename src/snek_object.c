@@ -3,45 +3,45 @@
 #include <string.h>
 
 snek_object_t *new_snek_integer(int value) {
-  snek_object_t *obj = _new_snek_object();
-  if (obj == NULL) {
+  snek_object_t *new_int = _new_snek_object();
+  if (new_int == NULL) {
     return NULL;
   }
 
-  obj->kind = INTEGER;
-  obj->data.v_int = value;
+  new_int->kind = INTEGER;
+  new_int->data.v_int = value;
 
-  return obj;
+  return new_int;
 }
 
 snek_object_t *new_snek_float(float value) {
-  snek_object_t *obj = _new_snek_object();
-  if (obj == NULL) {
+  snek_object_t *new_float = _new_snek_object();
+  if (new_float == NULL) {
     return NULL;
   }
 
-  obj->kind = FLOATS;
-  obj->data.v_float = value;
+  new_float->kind = FLOATS;
+  new_float->data.v_float = value;
 
-  return obj;
+  return new_float;
 }
 
 snek_object_t *new_snek_string(const char *value) {
-  snek_object_t *obj = _new_snek_object();
-  if (obj == NULL) {
+  snek_object_t *new_str = _new_snek_object();
+  if (new_str == NULL) {
     return NULL;
   }
 
-  obj->kind = STRING;
-  obj->data.v_string = malloc(strlen(value) + 1);
+  new_str->kind = STRING;
+  new_str->data.v_string = malloc(strlen(value) + 1);
 
-  if (obj->data.v_string == NULL) {
+  if (new_str->data.v_string == NULL) {
     return NULL;
   }
 
-  strcpy(obj->data.v_string, value);
+  strcpy(new_str->data.v_string, value);
 
-  return obj;
+  return new_str;
 }
 
 snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
@@ -50,21 +50,21 @@ snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
     return NULL;
   }
 
-  snek_object_t *obj = _new_snek_object();
-  if (obj == NULL) {
+  snek_object_t *new_vec = _new_snek_object();
+  if (new_vec == NULL) {
     return NULL;
   }
-
-  obj->kind = VECTOR3;
-  obj->data.v_vector3.x = x;
-  obj->data.v_vector3.y = y;
-  obj->data.v_vector3.z = z;
 
   refcount_incr(x);
   refcount_incr(y);
   refcount_incr(z);
 
-  return obj;
+  new_vec->kind = VECTOR3;
+  new_vec->data.v_vector3.x = x;
+  new_vec->data.v_vector3.y = y;
+  new_vec->data.v_vector3.z = z;
+
+  return new_vec;
 }
 
 snek_object_t *new_snek_array(size_t size) {

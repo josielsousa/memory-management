@@ -1,6 +1,3 @@
-#define MUNIT_ENABLE_ASSERT_ALIASES
-
-#include "munit/munit.h"
 #include "munit_helpers.h"
 #include "src/enums.h"
 #include "src/node.h"

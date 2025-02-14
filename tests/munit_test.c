@@ -1,6 +1,3 @@
-#define MUNIT_ENABLE_ASSERT_ALIASES
-
-#include "munit/munit.h"
 #include "munit_helpers.h"
 
 int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {

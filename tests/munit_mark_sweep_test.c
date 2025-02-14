@@ -25,10 +25,33 @@ static MunitResult test_new_vm(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+static MunitResult test_new_frame(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  vm_t *vm = vm_new();
+  assert_not_null(vm);
+
+  frame_t *frame = vm_new_frame(vm);
+  assert_not_null(frame);
+  assert_int(vm->frames->count, ==, 1);
+
+  assert_not_null(frame->references);
+  assert_int(frame->references->count, ==, 0);
+  assert_int(frame->references->capacity, ==, 8);
+
+  frame_free(frame);
+  vm_free(vm);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
 int munit_mark_sweep_tests_cases(int argc,
                                  char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
       munit_test("mark_sweep/test_new_vm", test_new_vm),
+      munit_test("mark_sweep/test_new_frame", test_new_frame),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

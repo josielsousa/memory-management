@@ -1,8 +1,8 @@
 #define MUNIT_ENABLE_ASSERT_ALIASES
 
+#include "mark_and_sweep/snek_mas.h"
 #include "munit/munit.h"
 #include "munit_helpers.h"
-#include "src/snek_mark_sweep.h"
 
 static MunitResult test_new_vm(const MunitParameter params[], void *data) {
   (void)params;

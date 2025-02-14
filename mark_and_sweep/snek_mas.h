@@ -41,3 +41,8 @@ frame_t *vm_new_frame(vm_t *vm);
 void vm_frame_push(vm_t *vm, frame_t *frame);
 
 void frame_free(frame_t *frame);
+
+// We are no longer going  to track how many times an object is referenced, but
+// instead check at garbage collection time if each object is referenced at all.
+// If it is, keep it, if not, free it.
+void vm_track_object(vm_t *vm, void *object);

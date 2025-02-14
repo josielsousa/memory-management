@@ -1,41 +1,61 @@
-# Compilador
+# Compiler
 CC = cc
 
-# Diretórios
-SRC_DIR = src
-TESTS_DIR = tests
-MUNIT_DIR = munit
-PROJ_DIR = $(shell pwd)
+# Folders
+SRC_DIR=src
+TESTS_DIR=tests
+MUNIT_DIR=munit
+PROJ_DIR=$(shell pwd)
+SRC_MAS_DIR=mark_and_sweep
+TESTS_MAS_DIR=mark_and_sweep/tests
 
-# Flags do compilador
-CFLAGS = -Wall -Wextra -I$(MUNIT_DIR) -I$(SRC_DIR)
+# Flags CC compiler
+CFLAGS=-Wall -Wextra -I$(MUNIT_DIR) -I$(SRC_DIR)
 
-# Arquivos fonte
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
-TEST_FILES = $(wildcard $(TESTS_DIR)/*.c)
-MUNIT_FILES = $(MUNIT_DIR)/munit.c $(MUNIT_DIR)/munit.h
+# Sources
+SRC_FILES=$(wildcard $(SRC_DIR)/*.c)
+TEST_FILES=$(wildcard $(TESTS_DIR)/*.c)
+MUNIT_FILES=$(MUNIT_DIR)/munit.c $(MUNIT_DIR)/munit.h
 
-# Regra para compilar a suite de testes
-test_suite: $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES)
-	$(CC) $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES) -I$(PROJ_DIR) -o out/test_suite.o
+SRC_MAS_FILES=$(wildcard $(SRC_MAS_DIR)/*.c)
+TEST_MAS_FILES=$(wildcard $(TESTS_MAS_DIR)/*.c)
 
-# Regra para rodar os testes
-test: format test_suite
-	@echo "==> Executando suite de testes..."
-	./out/test_suite.o
+# Run principal suite test
+print:
+	@echo "==> printing envs..."
+	@echo $(SRC_MAS_FILES)
+	@echo $(TEST_MAS_FILES)
 
-# Limpar arquivos gerados
+# Compile principal suite test
+principal_test_suite: $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES)
+	$(CC) $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES) -I$(PROJ_DIR) -o out/principal_test_suite.o
+
+# Compile mark and  sweep suite test
+mas_test_suite: $(SRC_MAS_FILES) $(TEST_MAS_FILES) $(MUNIT_FILES)
+	$(CC) $(SRC_MAS_FILES) $(TEST_MAS_FILES) $(MUNIT_FILES) -I$(PROJ_DIR) -o out/mas_test_suite.o
+
+# Run principal suite test
+test: format principal_test_suite
+	@echo "==> Running principal tests..."
+	./out/principal_test_suite.o
+
+# Run mark and sweep suite test
+test-mas: format mas_test_suite
+	@echo "==> Running mark and sweep tests$(SRC_MAS_FILES)..."
+	./out/mas_test_suite.o
+
+# Clean output files
 clean:
-	@echo "==> Limpando o output..."
+	@echo "==> Cleaning output files..."
 	rm -f out/*.o
 	rm -f boot-dev-basics/*.o
 
-# Gerar arquivo de configuração de estilo de código
+# Generate code style
 code-style:
-	@echo "==> Gerando o código..."
+	@echo "==> Generating code-style format..."
 	@clang-format -style=llvm -dump-config > .clang-format
 
-# Formatar o código
+# Format code
 format: clean
-	@echo "==> Formatando o código..."
-	@clang-format -i $(SRC_FILES) $(TEST_FILES)
+	@echo "==> Formating the code..."
+	@clang-format -i $(SRC_FILES) $(SRC_MAS_FILES) $(TEST_FILES)

@@ -1,4 +1,4 @@
-#include "snek_mark_sweep.h"
+#include "snek_mas.h"
 #include <stdlib.h>
 
 vm_t *vm_new(void) {
@@ -64,4 +64,12 @@ void frame_free(frame_t *frame) {
 
   free_stack(frame->references);
   free(frame);
+}
+
+void vm_track_object(vm_t *vm, void *object) {
+  if (vm == NULL || object == NULL) {
+    return;
+  }
+
+  stack_push(vm->objects, (void *)object);
 }

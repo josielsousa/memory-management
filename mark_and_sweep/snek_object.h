@@ -1,3 +1,4 @@
+#include "snek_mas.h"
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -43,27 +44,27 @@ typedef struct SnekObject {
 
 void format_object(snek_object_t obj, char *buffer);
 
-snek_object_t new_integer(int value);
-
-snek_object_t new_string(const char *value);
-
-snek_object_t *new_snek_integer(int value);
-
-snek_object_t *new_snek_float(float value);
-
-snek_object_t *new_snek_string(const char *value);
-
-snek_object_t *new_snek_vector(snek_object_t *x, snek_object_t *y,
-                               snek_object_t *z);
-
-snek_object_t *new_snek_array(size_t size);
-
 bool snek_array_set(snek_object_t *array, size_t index, snek_object_t *value);
 
 snek_object_t *snek_array_get(snek_object_t *obj, size_t index);
 
 int snek_length(snek_object_t *obj);
 
-snek_object_t *snek_add(snek_object_t *a, snek_object_t *b);
+snek_object_t *snek_add(vm_t *vm, snek_object_t *a, snek_object_t *b);
 
-snek_object_t *_new_snek_object(void);
+snek_object_t *_new_snek_object(vm_t *vm);
+
+snek_object_t new_integer(vm_t *vm, int value);
+
+snek_object_t new_string(vm_t *vm, const char *value);
+
+snek_object_t *new_snek_integer(vm_t *vm, int value);
+
+snek_object_t *new_snek_float(vm_t *vm, float value);
+
+snek_object_t *new_snek_string(vm_t *vm, const char *value);
+
+snek_object_t *new_snek_vector(vm_t *vm, snek_object_t *x, snek_object_t *y,
+                               snek_object_t *z);
+
+snek_object_t *new_snek_array(vm_t *vm, size_t size);

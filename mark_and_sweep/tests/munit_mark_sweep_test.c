@@ -1,4 +1,5 @@
 #include "mark_and_sweep/snek_mas.h"
+#include "mark_and_sweep/snek_object.h"
 #include "munit_helpers.h"
 
 static MunitResult test_new_vm(const MunitParameter params[], void *data) {
@@ -44,11 +45,33 @@ static MunitResult test_new_frame(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
+static MunitResult test_new_object(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  vm_t *vm = vm_new();
+  assert_not_null(vm);
+
+  snek_object_t *obj = new_snek_integer(vm, 42);
+  assert_not_null(obj);
+  assert_int(obj->kind, ==, INTEGER);
+  assert_int(obj->data.v_int, ==, 42);
+
+  assert_int(vm->objects->count, ==, 1);
+
+  free(obj);
+  vm_free(vm);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
 int munit_mark_sweep_tests_cases(int argc,
                                  char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
       munit_test("mark_sweep/test_new_vm", test_new_vm),
       munit_test("mark_sweep/test_new_frame", test_new_frame),
+      munit_test("mark_sweep/test_new_object", test_new_object),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

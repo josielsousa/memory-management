@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+snek_object_t *_new_snek_object(void) {
+  snek_object_t *obj = calloc(1, sizeof(snek_object_t));
+  if (obj == NULL) {
+    return NULL;
+  }
+
+  return obj;
+}
+
 snek_object_t *new_snek_integer(int value) {
   snek_object_t *new_int = _new_snek_object();
   if (new_int == NULL) {

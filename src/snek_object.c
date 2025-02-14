@@ -97,6 +97,8 @@ bool snek_array_set(snek_object_t *obj, size_t index, snek_object_t *value) {
   }
 
   obj->data.v_array.elements[index] = value;
+  refcount_incr(value);
+
   return true;
 }
 

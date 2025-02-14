@@ -19,9 +19,8 @@ static MunitResult test_new_vm(const MunitParameter params[], void *data) {
   assert_int(vm->objects->count, ==, 0);
   assert_int(vm->objects->capacity, ==, 8);
 
-  free_stack(vm->frames);
-  free_stack(vm->objects);
-  free(vm);
+  vm_free(vm);
+  assert(1);
 
   return MUNIT_OK;
 }

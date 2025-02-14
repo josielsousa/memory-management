@@ -49,5 +49,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
     return refcount_result;
   }
 
+  int mark_sweep_result = munit_mark_sweep_tests_cases(argc, argv);
+  if (mark_sweep_result != 0) {
+    return mark_sweep_result;
+  }
+
   return 0;
 }

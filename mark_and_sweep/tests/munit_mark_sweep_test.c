@@ -87,6 +87,20 @@ static MunitResult test_snek_object_free(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_frames_are_freed(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  vm_t *vm = vm_new();
+  vm_new_frame(vm);
+  vm_new_frame(vm);
+  vm_free(vm);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
 int munit_mark_sweep_tests_cases(int argc,
                                  char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -94,6 +108,7 @@ int munit_mark_sweep_tests_cases(int argc,
       munit_test("mark_sweep/test_new_frame", test_new_frame),
       munit_test("mark_sweep/test_new_object", test_new_object),
       munit_test("mark_sweep/test_snek_object_free", test_snek_object_free),
+      munit_test("mark_sweep/test_frames_are_freed", test_frames_are_freed),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

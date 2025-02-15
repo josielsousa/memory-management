@@ -18,6 +18,20 @@
 // - Can cause "stop the world" pauses, when a lot of objects are allocated.
 // - More complex to implement than refcounting.
 // - Higher memory overhead than refcounting.
+//
+// Mark and Sweep garbage collection was first described by John McCarthy in
+// 1960, primarily for managing memory in Lisp programs. It's a two-phase
+// algorithm:
+//
+// 1. Mark phase: The garbage collector traverses the object graph, starting
+//   from the root set, marking all objects that are reachable.
+// 2. Sweep phase: The garbage collector sweeps through the heap, freeing all
+//  objects that are not marked.
+//
+//  NOTE: We don't need to track how many times an object is referenced, but
+//  instead check at garbage collection time if each object is referenced in
+//  each `stack_frame` and traverse our container objects looking for any other
+//  referenced objects.
 
 // The Virtual Machine
 typedef struct VirtualMachine {

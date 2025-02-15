@@ -1,4 +1,4 @@
-#include "snek_mas.h"
+#include "snek_vm.h"
 #include <stdbool.h>
 #include <stddef.h>
 

@@ -1,4 +1,5 @@
 #include "snek_mas.h"
+#include "snek_object.h"
 #include <stdlib.h>
 
 vm_t *vm_new(void) {
@@ -23,13 +24,30 @@ vm_t *vm_new(void) {
   return vm;
 }
 
+void frame_free(frame_t *frame) {
+  if (frame == NULL) {
+    return;
+  }
+
+  free_stack(frame->references);
+  free(frame);
+}
+
 void vm_free(vm_t *vm) {
   if (vm == NULL) {
     return;
   }
 
+  for (size_t i = 0; i < vm->frames->count; i++) {
+    frame_free((frame_t *)vm->frames->data[i]);
+  }
   free_stack(vm->frames);
+
+  for (size_t i = 0; i < vm->objects->count; i++) {
+    snek_object_free((snek_object_t *)vm->objects->data[i]);
+  }
   free_stack(vm->objects);
+
   free(vm);
 }
 
@@ -55,15 +73,6 @@ void vm_frame_push(vm_t *vm, frame_t *frame) {
   }
 
   stack_push(vm->frames, (void *)frame);
-}
-
-void frame_free(frame_t *frame) {
-  if (frame == NULL) {
-    return;
-  }
-
-  free_stack(frame->references);
-  free(frame);
 }
 
 void vm_track_object(vm_t *vm, void *object) {

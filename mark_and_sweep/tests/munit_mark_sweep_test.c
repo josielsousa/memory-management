@@ -38,7 +38,6 @@ static MunitResult test_new_frame(const MunitParameter params[], void *data) {
   assert_int(frame->references->count, ==, 0);
   assert_int(frame->references->capacity, ==, 8);
 
-  frame_free(frame);
   vm_free(vm);
   assert(1);
 
@@ -58,8 +57,30 @@ static MunitResult test_new_object(const MunitParameter params[], void *data) {
   assert_int(obj->data.v_int, ==, 42);
 
   assert_int(vm->objects->count, ==, 1);
+  assert_ptr_equal(vm->objects->data[0], obj);
 
-  free(obj);
+  vm_free(vm);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
+static MunitResult test_snek_object_free(const MunitParameter params[],
+                                         void *data) {
+  (void)params;
+  (void)data;
+
+  vm_t *vm = vm_new();
+  assert_not_null(vm);
+
+  snek_object_t *obj = new_snek_integer(vm, 42);
+  assert_not_null(obj);
+  assert_int(obj->kind, ==, INTEGER);
+  assert_int(obj->data.v_int, ==, 42);
+
+  assert_int(vm->objects->count, ==, 1);
+  assert_ptr_equal(vm->objects->data[0], obj);
+
   vm_free(vm);
   assert(1);
 
@@ -72,6 +93,7 @@ int munit_mark_sweep_tests_cases(int argc,
       munit_test("mark_sweep/test_new_vm", test_new_vm),
       munit_test("mark_sweep/test_new_frame", test_new_frame),
       munit_test("mark_sweep/test_new_object", test_new_object),
+      munit_test("mark_sweep/test_snek_object_free", test_snek_object_free),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

@@ -211,3 +211,26 @@ snek_object_t *snek_add(vm_t *vm, snek_object_t *a, snek_object_t *b) {
     return NULL;
   }
 }
+
+void snek_object_free(snek_object_t *obj) {
+  if (obj == NULL) {
+    return;
+  }
+
+  switch (obj->kind) {
+  case INTEGER:
+    break;
+  case FLOATS:
+    break;
+  case STRING:
+    free(obj->data.v_string);
+    break;
+  case VECTOR3:
+    break;
+  case ARRAY:
+    free(obj->data.v_array.elements);
+    break;
+  }
+
+  free(obj);
+}

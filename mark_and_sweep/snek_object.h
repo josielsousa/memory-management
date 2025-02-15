@@ -68,3 +68,5 @@ snek_object_t *new_snek_vector(vm_t *vm, snek_object_t *x, snek_object_t *y,
                                snek_object_t *z);
 
 snek_object_t *new_snek_array(vm_t *vm, size_t size);
+
+void snek_object_free(snek_object_t *obj);

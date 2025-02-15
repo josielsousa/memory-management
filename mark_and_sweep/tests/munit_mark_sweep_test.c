@@ -55,6 +55,7 @@ static MunitResult test_new_object(const MunitParameter params[], void *data) {
   assert_not_null(obj);
   assert_int(obj->kind, ==, INTEGER);
   assert_int(obj->data.v_int, ==, 42);
+  assert_false(obj->is_marked);
 
   assert_int(vm->objects->count, ==, 1);
   assert_ptr_equal(vm->objects->data[0], obj);
@@ -77,6 +78,7 @@ static MunitResult test_snek_object_free(const MunitParameter params[],
   assert_not_null(obj);
   assert_int(obj->kind, ==, INTEGER);
   assert_int(obj->data.v_int, ==, 42);
+  assert_false(obj->is_marked);
 
   assert_int(vm->objects->count, ==, 1);
   assert_ptr_equal(vm->objects->data[0], obj);
@@ -96,6 +98,7 @@ test_frame_object_one_reference(const MunitParameter params[], void *data) {
   frame_t *frame = vm_new_frame(vm);
 
   snek_object_t *lanes_wpm = new_snek_integer(vm, 9);
+  assert_false(lanes_wpm->is_marked);
   frame_reference_object(frame, lanes_wpm);
 
   assert_int(frame->references->count, ==, 1);
@@ -131,7 +134,11 @@ test_frame_object_multiple_references(const MunitParameter params[],
   frame_t *frame = vm_new_frame(vm);
 
   snek_object_t *lanes_wpm = new_snek_integer(vm, 9);
+  assert_false(lanes_wpm->is_marked);
+
   snek_object_t *master_wpm = new_snek_integer(vm, 190);
+  assert_false(master_wpm->is_marked);
+
   frame_reference_object(frame, lanes_wpm);
   frame_reference_object(frame, master_wpm);
 

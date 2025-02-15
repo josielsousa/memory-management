@@ -9,6 +9,8 @@ snek_object_t *_new_snek_object(vm_t *vm) {
   }
 
   vm_track_object(vm, obj);
+  obj->is_marked = false;
+
   return obj;
 }
 

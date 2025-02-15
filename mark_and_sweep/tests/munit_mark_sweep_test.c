@@ -87,6 +87,26 @@ static MunitResult test_snek_object_free(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult
+test_frame_object_one_reference(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  vm_t *vm = vm_new();
+  frame_t *frame = vm_new_frame(vm);
+
+  snek_object_t *lanes_wpm = new_snek_integer(vm, 9);
+  frame_reference_object(frame, lanes_wpm);
+
+  assert_int(frame->references->count, ==, 1);
+  assert_ptr_equal(frame->references->data[0], lanes_wpm);
+
+  vm_free(vm);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
 static MunitResult test_frames_are_freed(const MunitParameter params[],
                                          void *data) {
   (void)params;
@@ -101,6 +121,30 @@ static MunitResult test_frames_are_freed(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult
+test_frame_object_multiple_references(const MunitParameter params[],
+                                      void *data) {
+  (void)params;
+  (void)data;
+
+  vm_t *vm = vm_new();
+  frame_t *frame = vm_new_frame(vm);
+
+  snek_object_t *lanes_wpm = new_snek_integer(vm, 9);
+  snek_object_t *master_wpm = new_snek_integer(vm, 190);
+  frame_reference_object(frame, lanes_wpm);
+  frame_reference_object(frame, master_wpm);
+
+  assert_int(frame->references->count, ==, 2);
+  assert_ptr_equal(frame->references->data[0], lanes_wpm);
+  assert_ptr_equal(frame->references->data[1], master_wpm);
+
+  vm_free(vm);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
 int munit_mark_sweep_tests_cases(int argc,
                                  char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -109,6 +153,10 @@ int munit_mark_sweep_tests_cases(int argc,
       munit_test("mark_sweep/test_new_object", test_new_object),
       munit_test("mark_sweep/test_snek_object_free", test_snek_object_free),
       munit_test("mark_sweep/test_frames_are_freed", test_frames_are_freed),
+      munit_test("mark_sweep/test_frame_object_one_reference",
+                 test_frame_object_one_reference),
+      munit_test("mark_sweep/test_frame_object_multiple_references",
+                 test_frame_object_multiple_references),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

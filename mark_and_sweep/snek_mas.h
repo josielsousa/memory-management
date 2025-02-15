@@ -46,3 +46,5 @@ void frame_free(frame_t *frame);
 // instead check at garbage collection time if each object is referenced at all.
 // If it is, keep it, if not, free it.
 void vm_track_object(vm_t *vm, void *object);
+
+void frame_reference_object(frame_t *frame, void *object);

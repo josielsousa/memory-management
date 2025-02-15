@@ -82,3 +82,11 @@ void vm_track_object(vm_t *vm, void *object) {
 
   stack_push(vm->objects, (void *)object);
 }
+
+void frame_reference_object(frame_t *frame, void *object) {
+  if (frame == NULL || object == NULL) {
+    return;
+  }
+
+  stack_push(frame->references, (void *)object);
+}

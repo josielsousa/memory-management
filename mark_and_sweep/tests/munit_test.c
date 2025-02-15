@@ -8,5 +8,10 @@ int main(int argc, char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
     return mark_sweep_result;
   }
 
+  int traces_result = munit_traces_tests_cases(argc, argv);
+  if (traces_result != 0) {
+    return traces_result;
+  }
+
   return 0;
 }

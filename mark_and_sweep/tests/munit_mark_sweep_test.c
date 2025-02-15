@@ -1,5 +1,5 @@
 #include "mark_and_sweep/snek_mas.h"
-#include "mark_and_sweep/snek_object.h"
+#include "mark_and_sweep/vm.h"
 #include "munit_helpers.h"
 
 static MunitResult test_new_vm(const MunitParameter params[], void *data) {

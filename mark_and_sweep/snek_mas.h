@@ -45,31 +45,3 @@ typedef struct VirtualMachine {
 typedef struct StackFrame {
   stack_t *references;
 } frame_t;
-
-vm_t *vm_new(void);
-
-void vm_free(vm_t *vm);
-
-frame_t *vm_new_frame(vm_t *vm);
-
-void vm_frame_push(vm_t *vm, frame_t *frame);
-
-void frame_free(frame_t *frame);
-
-// We are no longer going  to track how many times an object is referenced, but
-// instead check at garbage collection time if each object is referenced at all.
-// If it is, keep it, if not, free it.
-void vm_track_object(vm_t *vm, void *object);
-
-void frame_reference_object(frame_t *frame, void *object);
-
-// In some mark and sweep implementations, you'll see different ways to mark
-// `root objects` - the object directly referenced by the stack frames. However,
-// in our simplicist VM it's a bit easier to find and mark all of the directly
-// objects.
-//
-// 1. iterate over each frame in the VM
-// 2. iterate over each references object in each frame
-// 3. mark the objects as `is_marked = true`
-//
-void mark(vm_t *vm);

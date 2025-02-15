@@ -68,4 +68,5 @@ code-style:
 # Format code
 format: clean
 	@echo "==> Formating the code..."
-	@clang-format -i $(SRC_FILES) $(SRC_MAS_FILES) $(TEST_FILES)
+	@clang-format -i $(SRC_FILES) $(SRC_MAS_FILES) $(TEST_FILES) \
+    $(TEST_MAS_FILES) $(SHARED_FILES)

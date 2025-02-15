@@ -74,3 +74,14 @@ void trace_blacken_object(stack_t *gray_objects, snek_object_t *object);
 // `gray_objects`
 //
 void trace_mark_object(stack_t *gray_objects, snek_object_t *object);
+
+// All objects that are not marked are swept and freed.
+// - Iterate over each object in the VM and free any object that is not marked.
+// - Once it's freed, remove the object from the VM.
+// - Any object that is marked, set `is_marked = false` for the next time the
+// mark phase runs, if it's not marked again, it will be freed in next cycle.
+void sweep(vm_t *vm);
+
+frame_t *vm_frame_pop(vm_t *vm);
+
+void vm_garbage_collector(vm_t *vm);

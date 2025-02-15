@@ -193,3 +193,51 @@ void trace(vm_t *vm) {
 
   free_stack(gray_objects);
 }
+
+// All objects that are not marked are swept and freed.
+//
+// - Iterate over each object in the VM:
+//   - If the object is marked, set `is_marked = false` and continue.
+//   - Otherwise, free the object and remove it from the VM. Set the data at
+//   that position in the stack to `NULL`.
+//
+// - Call `stack_remove_nulls` to remove any `NULL` object from the VM's object
+// stack.
+//
+void sweep(vm_t *vm) {
+  if (vm == NULL) {
+    return;
+  }
+
+  for (int i = 0; i < vm->objects->count; i++) {
+    snek_object_t *object = vm->objects->data[i];
+
+    if (object->is_marked) {
+      object->is_marked = false;
+      continue;
+    }
+
+    snek_object_free(object);
+    vm->objects->data[i] = NULL;
+  }
+
+  stack_remove_nulls(vm->objects);
+}
+
+void vm_garbage_collector(vm_t *vm) {
+  if (vm == NULL) {
+    return;
+  }
+
+  mark(vm);
+  trace(vm);
+  sweep(vm);
+}
+
+frame_t *vm_frame_pop(vm_t *vm) {
+  if (vm == NULL || vm->frames->count == 0) {
+    return NULL;
+  }
+
+  return stack_pop(vm->frames);
+}

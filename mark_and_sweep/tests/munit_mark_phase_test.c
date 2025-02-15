@@ -184,7 +184,7 @@ static MunitResult test_mark(const MunitParameter params[], void *data) {
   return MUNIT_OK;
 }
 
-int munit_mark_sweep_tests_cases(int argc,
+int munit_mark_phase_tests_cases(int argc,
                                  char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
       munit_test("mark_sweep/test_new_vm", test_new_vm),

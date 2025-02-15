@@ -62,3 +62,14 @@ void frame_free(frame_t *frame);
 void vm_track_object(vm_t *vm, void *object);
 
 void frame_reference_object(frame_t *frame, void *object);
+
+// In some mark and sweep implementations, you'll see different ways to mark
+// `root objects` - the object directly referenced by the stack frames. However,
+// in our simplicist VM it's a bit easier to find and mark all of the directly
+// objects.
+//
+// 1. iterate over each frame in the VM
+// 2. iterate over each references object in each frame
+// 3. mark the objects as `is_marked = true`
+//
+void mark(vm_t *vm);

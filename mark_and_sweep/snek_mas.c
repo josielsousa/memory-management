@@ -90,3 +90,21 @@ void frame_reference_object(frame_t *frame, void *object) {
 
   stack_push(frame->references, (void *)object);
 }
+
+// 1. iterate over each frame in the VM
+// 2. iterate over each references object in each frame
+// 3. mark the objects as `is_marked = true`
+void mark(vm_t *vm) {
+  if (vm == NULL) {
+    return;
+  }
+
+  for (int i = 0; i < vm->frames->count; i++) {
+    frame_t *frame = vm->frames->data[i];
+
+    for (int j = 0; j < frame->references->count; j++) {
+      snek_object_t *obj = frame->references->data[j];
+      obj->is_marked = true;
+    }
+  }
+}

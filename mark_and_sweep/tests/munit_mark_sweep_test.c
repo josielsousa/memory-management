@@ -152,6 +152,38 @@ test_frame_object_multiple_references(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult test_mark(const MunitParameter params[], void *data) {
+  (void)params;
+  (void)data;
+
+  vm_t *vm = vm_new();
+  frame_t *frame = vm_new_frame(vm);
+
+  snek_object_t *lanes_wpm = new_snek_integer(vm, 9);
+  assert_false(lanes_wpm->is_marked);
+
+  snek_object_t *master_wpm = new_snek_integer(vm, 190);
+  assert_false(master_wpm->is_marked);
+
+  snek_object_t *name = new_snek_string(vm, "name");
+  assert_false(name->is_marked);
+
+  frame_reference_object(frame, lanes_wpm);
+  frame_reference_object(frame, master_wpm);
+  frame_reference_object(frame, name);
+
+  mark(vm);
+
+  assert_true(lanes_wpm->is_marked);
+  assert_true(master_wpm->is_marked);
+  assert_true(name->is_marked);
+
+  vm_free(vm);
+  assert(1);
+
+  return MUNIT_OK;
+}
+
 int munit_mark_sweep_tests_cases(int argc,
                                  char *argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   MunitTest test_suite_tests_misc[] = {
@@ -164,6 +196,7 @@ int munit_mark_sweep_tests_cases(int argc,
                  test_frame_object_one_reference),
       munit_test("mark_sweep/test_frame_object_multiple_references",
                  test_frame_object_multiple_references),
+      munit_test("mark_sweep/test_mark", test_mark),
       {.name = NULL,
        .test = NULL,
        .setup = NULL,

@@ -14,13 +14,13 @@ language. We have learned about the following topics:
 - Memory Allocation
 - Memory Deallocation
 - Memory Leak
-- Referece Counting
+- Reference Counting
 - Mark and Sweep
 - Garbage Collection
 
 ### Compiling the code
 
-To run the code you need to have a C compiler installed on your machine.
+To run the code you need to have a C compiler, clang-format installed on your machine.
 
 ### Running tests
 

@@ -30,10 +30,11 @@ print:
 
 # Compile principal suite test
 src_test_suite:
+	@mkdir -p out/
 	$(CC) $(SHARED_FILES) $(SRC_FILES) $(TEST_FILES) $(MUNIT_FILES) \
     -I$(PROJ_DIR) -o out/src_test_suite.o
 
-# Compile mark and  sweep suite test
+# Compile mark and sweep suite test
 mas_test_suite:
 	$(CC) $(SHARED_FILES) $(SRC_MAS_FILES) $(TEST_MAS_FILES) $(MUNIT_FILES) \
     -I$(PROJ_DIR) -o out/mas_test_suite.o
